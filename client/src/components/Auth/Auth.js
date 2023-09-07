@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
-import logo from '../../images/CAMPCON Logo.png';
+import logo from '../../images/WanderBook Part.png';
 
 import Icon from './icon';
 import { signin, signup } from '../../actions/auth';
