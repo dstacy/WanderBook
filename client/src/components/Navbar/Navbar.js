@@ -4,7 +4,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import decode from 'jwt-decode';
 
-import logo from '../../images/WanderBook Logo.png';
+import logo from '../../images/WanderBookFull.png';
 import * as actionType from '../../constants/actionTypes';
 import useStyles from './styles';
 
