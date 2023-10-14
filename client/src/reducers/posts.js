@@ -1,4 +1,4 @@
-import { FETCH_ALL, FETCH_BY_SEARCH, FETCH_BY_CREATOR, FETCH_POST, CREATE, UPDATE, DELETE, LIKE, COMMENT } from '../constants/actionTypes';
+import { FETCH_ALL, FETCH_BY_SEARCH, FETCH_BY_CREATOR, FETCH_POST, CREATE, UPDATE, DELETE, LIKE, COMMENT, FETCH_CAMPGROUNDS } from '../constants/actionTypes';
 
 export default (state = { isLoading: true, posts: [] }, action) => {
   switch (action.type) {
@@ -36,6 +36,8 @@ export default (state = { isLoading: true, posts: [] }, action) => {
       return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
     case DELETE:
       return { ...state, posts: state.posts.filter((post) => post._id !== action.payload) };
+    case FETCH_CAMPGROUNDS: // Handle the new action to store campground data
+      return { ...state, campgrounds: action.payload.data };
     default:
       return state;
   }
