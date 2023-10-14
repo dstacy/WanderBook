@@ -9,7 +9,6 @@ import { createPost, updatePost, getCampgrounds } from '../../actions/posts';
 import useStyles from './styles';
 
 const Form = ({ currentId, setCurrentId }) => {
-  console.log("Form component rendered");
   const [postData, setPostData] = useState({ title: '', message: '', tags: [], selectedFile: '' });
   const [selectedFacilityName, setSelectedFacilityName] = useState(''); // Add state for the selected facility name
   const post = useSelector((state) => (currentId ? state.posts.posts.find((message) => message._id === currentId) : null));
@@ -41,7 +40,6 @@ const Form = ({ currentId, setCurrentId }) => {
   }, [post]);
 
   useEffect(() => {
-    console.log("UseEffect");
     dispatch(getCampgrounds());
   }, [dispatch]);
 
@@ -76,14 +74,11 @@ const Form = ({ currentId, setCurrentId }) => {
   };
 
   const handleFacilityNameChange = (e) => {
-    console.log('handleFacilityNameChange called'); 
     const selectedName = e.target.value;
     setSelectedFacilityName(selectedName);
 
     setInputBlurred(true);
   };
-
-  console.log(facilityNames);
 
   return (
     <Paper className={classes.paper} elevation={6}>
@@ -100,7 +95,6 @@ const Form = ({ currentId, setCurrentId }) => {
         }}
         onBlur={() => {
           if (inputBlurred) {
-            console.log('Dispatching getCampgrounds action');
             dispatch(getCampgrounds(postData.title));
           }
         }}

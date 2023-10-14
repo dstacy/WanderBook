@@ -107,13 +107,12 @@ export const deletePost = (id) => async (dispatch) => {
   }
 };
 
-// pname is being passed successfuly according to console.log
-// console.log(data) returns nothing and I get error 500
+
 export const getCampgrounds = (pname) => async (dispatch) => {
   try {
   const { data } = await campAPI.fetchCampgroundSearch(pname);
+  
     dispatch({ type: FETCH_CAMPGROUNDS, payload: { data } });
-    console.log(data);
   } catch (error) {
     console.log("Error in Campgrounds", error);
   }

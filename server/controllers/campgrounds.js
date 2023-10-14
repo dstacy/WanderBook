@@ -21,7 +21,6 @@ export const getCampgrounds = async (req, res) => {
         });
     
     } catch (error) {
-        console.log("Error in getCampgrounds: ", error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
