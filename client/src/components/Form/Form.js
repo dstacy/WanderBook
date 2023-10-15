@@ -4,20 +4,33 @@ import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
 import { useHistory } from 'react-router-dom';
 import ChipInput from 'material-ui-chip-input';
+import _debounce from 'lodash.debounce'; // Import the debounce function
 
 import { createPost, updatePost, getCampgrounds } from '../../actions/posts';
 import useStyles from './styles';
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({ title: '', message: '', tags: [], selectedFile: '' });
-  const [selectedFacilityName, setSelectedFacilityName] = useState(''); // Add state for the selected facility name
+  const [selectedFacilityName, setSelectedFacilityName] = useState('');
+  const [pname, setPname] = useState('');
+  const [prevFirstWord, setPrevFirstWord] = useState('');
   const post = useSelector((state) => (currentId ? state.posts.posts.find((message) => message._id === currentId) : null));
   const dispatch = useDispatch();
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem('profile'));
   const history = useHistory();
 
-  const [inputBlurred, setInputBlurred] = useState(false);
+  const handleApiCall = (title) => {
+    // Check the minimum character requirement and pass the first word as pname
+    if (title.length > 3) {
+      const firstWord = title.split(' ')[0];
+      dispatch(getCampgrounds(firstWord));
+    };
+  };
+  
+  const debounceApiCall = _debounce(handleApiCall, 1000); // Debounce the API call to prevent going over rate limit
+
+  //const [inputBlurred, setInputBlurred] = useState(false);
 
   const campgrounds = useSelector((state) => state.posts.campgrounds);
 
@@ -28,14 +41,14 @@ const Form = ({ currentId, setCurrentId }) => {
   const clear = () => {
     setCurrentId(0);
     setPostData({ title: '', message: '', tags: [], selectedFile: '' });
-    setSelectedFacilityName(''); // Clear the selected facility name
+    setSelectedFacilityName('');
   };
 
   useEffect(() => {
     if (!post?.title) clear();
     if (post) {
       setPostData(post);
-      setSelectedFacilityName(post.facilityName || ''); // Set the selected facility name if available
+      setSelectedFacilityName(post.facilityName || '');
     }
   }, [post]);
 
@@ -43,14 +56,41 @@ const Form = ({ currentId, setCurrentId }) => {
     dispatch(getCampgrounds());
   }, [dispatch]);
 
+  const handleTitleChange = (e) => {
+    const title = e.target.value;
+    setPostData({ ...postData, title });
+    const words = title.split(' ');
+    if (words.length > 0) {
+      const firstWord = words[0];
+
+      // Check if the first word has changed
+      if (firstWord !== prevFirstWord) {
+        setPrevFirstWord(firstWord); // Update the previous first word
+        // setInputBlurred(true);
+        debounceApiCall(firstWord); // Pass the first word to the debounce function
+      }
+    }
+  };
+
+  const handleFacilityNameChange = (e) => {
+    const selectedName = e.target.value;
+    setSelectedFacilityName(selectedName);
+    setPostData({ ...postData, title: selectedName }); // Update the title field
+    // setInputBlurred(true);
+  };
+
+  const filteredFacilityNames = facilityNames.filter((name) => name.toLowerCase().includes(postData.title.toLowerCase()));
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (currentId === 0) {
-      dispatch(createPost({ ...postData, name: user?.result?.name, facilityName: selectedFacilityName }, history)); // Include the selected facility name
+      dispatch(
+        createPost({ ...postData, name: user?.result?.name, facilityName: selectedFacilityName }, history)
+      );
       clear();
     } else {
-      dispatch(updatePost(currentId, { ...postData, name: user?.result?.name, facilityName: selectedFacilityName })); // Include the selected facility name
+      dispatch(updatePost(currentId, { ...postData, name: user?.result?.name, facilityName: selectedFacilityName }));
       clear();
     }
   };
@@ -73,13 +113,6 @@ const Form = ({ currentId, setCurrentId }) => {
     setPostData({ ...postData, tags: postData.tags.filter((tag) => tag !== chipToDelete) });
   };
 
-  const handleFacilityNameChange = (e) => {
-    const selectedName = e.target.value;
-    setSelectedFacilityName(selectedName);
-
-    setInputBlurred(true);
-  };
-
   return (
     <Paper className={classes.paper} elevation={6}>
       <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
@@ -87,19 +120,27 @@ const Form = ({ currentId, setCurrentId }) => {
         <TextField
           name="title"
           variant="outlined"
-          label="Title"
+          label="Campground Name"
           fullWidth
-        value={postData.title}
-        onChange={(e) => {
-          setPostData({ ...postData, title: e.target.value });
-        }}
-        onBlur={() => {
-          if (inputBlurred) {
-            dispatch(getCampgrounds(postData.title));
-          }
-        }}
-        onFocus={() => setInputBlurred(true)}
+          value={postData.title}
+          onChange={handleTitleChange}
+
         />
+        <TextField
+          select
+          label="Select Facility Name"
+          fullWidth
+          value={selectedFacilityName}
+          onChange={handleFacilityNameChange}
+          variant="outlined"
+        >
+          <MenuItem value="">Select</MenuItem>
+          {filteredFacilityNames.map((name, index) => (
+            <MenuItem key={index} value={name}>
+              {name}
+            </MenuItem>
+          ))}
+        </TextField>
         <TextField name="message" variant="outlined" label="Message" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
         <div style={{ padding: '5px 0', width: '94%' }}>
           <ChipInput
@@ -112,21 +153,15 @@ const Form = ({ currentId, setCurrentId }) => {
             onDelete={(chip) => handleDeleteChip(chip)}
           />
         </div>
-        /* Facility Name dropdown with 'Select' option */
-        <TextField select label="Facility Name" fullWidth value={selectedFacilityName} 
-          onChange={handleFacilityNameChange}
-          variant="outlined"
-        >
-          <MenuItem value="">Select</MenuItem>
-          {facilityNames.map((name, index) => (
-            <MenuItem key={index} value={name}>
-              {name}
-            </MenuItem>
-          ))}
-        </TextField>
-        <div className={classes.fileInput}><FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} /></div>
-        <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Submit</Button>
-        <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>Clear</Button>
+        <div className={classes.fileInput}>
+          <FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
+        </div>
+        <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>
+          Submit
+        </Button>
+        <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>
+          Clear
+        </Button>
       </form>
     </Paper>
   );
