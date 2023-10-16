@@ -6,14 +6,11 @@ import { useHistory } from 'react-router-dom';
 import ChipInput from 'material-ui-chip-input';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import _debounce from 'lodash.debounce'; // Import the debounce function
-
 import { createPost, updatePost, getCampgrounds } from '../../actions/posts';
 import useStyles from './styles';
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({ title: '', site: '', pros: '', cons: '', message: '', tags: [], selectedFile: '' });
-  const [selectedFacilityName, setSelectedFacilityName] = useState('');
-  const [pname, setPname] = useState('');
   const [prevFirstWord, setPrevFirstWord] = useState('');
   const post = useSelector((state) => (currentId ? state.posts.posts.find((message) => message._id === currentId) : null));
   const dispatch = useDispatch();
@@ -40,14 +37,12 @@ const Form = ({ currentId, setCurrentId }) => {
   const clear = () => {
     setCurrentId(0);
     setPostData({ title: '', site: '', pros: '', cons: '', message: '', tags: [], selectedFile: '' });
-    setSelectedFacilityName('');
   };
 
   useEffect(() => {
     if (!post?.title) clear();
     if (post) {
       setPostData(post);
-      setSelectedFacilityName(post.facilityName || '');
     }
   }, [post]);
 
