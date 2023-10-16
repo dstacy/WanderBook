@@ -73,7 +73,6 @@ const Form = ({ currentId, setCurrentId }) => {
     const selectedName = e.target.value;
     setSelectedFacilityName(selectedName);
     setPostData({ ...postData, title: selectedName }); // Update the title field
-    // setInputBlurred(true);
   };
 
   const filteredFacilityNames = facilityNames.filter((name) => name.toLowerCase().includes(postData.title.toLowerCase()));
@@ -83,11 +82,11 @@ const Form = ({ currentId, setCurrentId }) => {
 
     if (currentId === 0) {
       dispatch(
-        createPost({ ...postData, name: user?.result?.name, facilityName: selectedFacilityName }, history)
+        createPost({ ...postData, name: user?.result?.name }, history)
       );
       clear();
     } else {
-      dispatch(updatePost(currentId, { ...postData, name: user?.result?.name, facilityName: selectedFacilityName }));
+      dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
       clear();
     }
   };
