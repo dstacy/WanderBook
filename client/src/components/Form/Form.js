@@ -30,8 +30,6 @@ const Form = ({ currentId, setCurrentId }) => {
   
   const debounceApiCall = _debounce(handleApiCall, 1000); // Debounce the API call to prevent going over rate limit
 
-  //const [inputBlurred, setInputBlurred] = useState(false);
-
   const campgrounds = useSelector((state) => state.posts.campgrounds);
 
   const facilityNames = Array.isArray(campgrounds?.resultset?.result)
@@ -66,7 +64,6 @@ const Form = ({ currentId, setCurrentId }) => {
       // Check if the first word has changed
       if (firstWord !== prevFirstWord) {
         setPrevFirstWord(firstWord); // Update the previous first word
-        // setInputBlurred(true);
         debounceApiCall(firstWord); // Pass the first word to the debounce function
       }
     }
