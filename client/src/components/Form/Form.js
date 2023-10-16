@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
 import { useHistory } from 'react-router-dom';
 import ChipInput from 'material-ui-chip-input';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import _debounce from 'lodash.debounce'; // Import the debounce function
 
 import { createPost, updatePost, getCampgrounds } from '../../actions/posts';
 import useStyles from './styles';
 
 const Form = ({ currentId, setCurrentId }) => {
-  const [postData, setPostData] = useState({ title: '', message: '', tags: [], selectedFile: '' });
+  const [postData, setPostData] = useState({ title: '', site: '', pros: '', cons: '', message: '', tags: [], selectedFile: '' });
   const [selectedFacilityName, setSelectedFacilityName] = useState('');
   const [pname, setPname] = useState('');
   const [prevFirstWord, setPrevFirstWord] = useState('');
@@ -28,7 +29,7 @@ const Form = ({ currentId, setCurrentId }) => {
     };
   };
   
-  const debounceApiCall = _debounce(handleApiCall, 1000); // Debounce the API call to prevent going over rate limit
+  const debounceApiCall = _debounce(handleApiCall, 500); // Debounce the API call to prevent going over rate limit
 
   const campgrounds = useSelector((state) => state.posts.campgrounds);
 
@@ -38,7 +39,7 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const clear = () => {
     setCurrentId(0);
-    setPostData({ title: '', message: '', tags: [], selectedFile: '' });
+    setPostData({ title: '', site: '', pros: '', cons: '', message: '', tags: [], selectedFile: '' });
     setSelectedFacilityName('');
   };
 
@@ -55,24 +56,19 @@ const Form = ({ currentId, setCurrentId }) => {
   }, [dispatch]);
 
   const handleTitleChange = (e) => {
+    console.log("Called Title Change");
     const title = e.target.value;
     setPostData({ ...postData, title });
     const words = title.split(' ');
     if (words.length > 0) {
       const firstWord = words[0];
-
+  
       // Check if the first word has changed
       if (firstWord !== prevFirstWord) {
         setPrevFirstWord(firstWord); // Update the previous first word
         debounceApiCall(firstWord); // Pass the first word to the debounce function
       }
     }
-  };
-
-  const handleFacilityNameChange = (e) => {
-    const selectedName = e.target.value;
-    setSelectedFacilityName(selectedName);
-    setPostData({ ...postData, title: selectedName }); // Update the title field
   };
 
   const filteredFacilityNames = facilityNames.filter((name) => name.toLowerCase().includes(postData.title.toLowerCase()));
@@ -112,31 +108,25 @@ const Form = ({ currentId, setCurrentId }) => {
   return (
     <Paper className={classes.paper} elevation={6}>
       <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
+        <div>
         <Typography variant="h6">{currentId ? `Editing "${post?.title}"` : 'Creating a Memory'}</Typography>
-        <TextField
-          name="title"
-          variant="outlined"
-          label="Campground Name"
-          fullWidth
-          value={postData.title}
-          onChange={handleTitleChange}
-
+        </div>
+        <div style={{ padding: '0 17px 0 0', width: '100%' }}>
+          <Autocomplete
+          id="title"
+          onInputChange={(event, newValue) => {
+            handleTitleChange({ target: { value: newValue } });
+          }}
+          options={postData.title ? filteredFacilityNames : []}
+          getOptionLabel={(option) => option}
+          renderInput={(params) => (
+            <TextField {...params} label="Campground Name" variant="outlined" value={postData.title} />
+          )}
         />
-        <TextField
-          select
-          label="Select Facility Name"
-          fullWidth
-          value={selectedFacilityName}
-          onChange={handleFacilityNameChange}
-          variant="outlined"
-        >
-          <MenuItem value="">Select</MenuItem>
-          {filteredFacilityNames.map((name, index) => (
-            <MenuItem key={index} value={name}>
-              {name}
-            </MenuItem>
-          ))}
-        </TextField>
+        </div>
+        <TextField name="site" variant="outlined" label="Site Number" fullWidth value={postData.site} onChange={(e) => setPostData({ ...postData, site: e.target.value })} />
+        <TextField name="pros" variant="outlined" label="Pros" fullWidth value={postData.pros} onChange={(e) => setPostData({ ...postData, pros: e.target.value })} />
+        <TextField name="cons" variant="outlined" label="Cons" fullWidth value={postData.cons} onChange={(e) => setPostData({ ...postData, cons: e.target.value })} />
         <TextField name="message" variant="outlined" label="Description" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
         <div style={{ padding: '5px 0', width: '94%' }}>
           <ChipInput
