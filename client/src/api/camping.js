@@ -11,3 +11,4 @@ API.interceptors.request.use((req) => {
 });
 
 export const fetchCampgroundSearch = (pname) => API.get(`/campgrounds/${pname}`);
+export const fetchCampgroundDetails = (contractCode, parkId ) => API.get(`/campgrounds/${contractCode, parkId}`);

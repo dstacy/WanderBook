@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Typography, Paper, MenuItem } from '@material-ui/core';
+import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
 import { useHistory } from 'react-router-dom';
@@ -12,8 +12,6 @@ import useStyles from './styles';
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({ title: '', site: '', pros: '', cons: '', message: '', tags: [], selectedFile: '' });
-  const [selectedFacilityName, setSelectedFacilityName] = useState('');
-  const [pname, setPname] = useState('');
   const [prevFirstWord, setPrevFirstWord] = useState('');
   const post = useSelector((state) => (currentId ? state.posts.posts.find((message) => message._id === currentId) : null));
   const dispatch = useDispatch();
@@ -40,14 +38,12 @@ const Form = ({ currentId, setCurrentId }) => {
   const clear = () => {
     setCurrentId(0);
     setPostData({ title: '', site: '', pros: '', cons: '', message: '', tags: [], selectedFile: '' });
-    setSelectedFacilityName('');
   };
 
   useEffect(() => {
     if (!post?.title) clear();
     if (post) {
       setPostData(post);
-      setSelectedFacilityName(post.facilityName || '');
     }
   }, [post]);
 
