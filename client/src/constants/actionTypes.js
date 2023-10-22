@@ -14,3 +14,4 @@ export const AUTH = 'AUTH';
 export const LOGOUT = 'LOGOUT';
 
 export const FETCH_CAMPGROUNDS = "FETCH_CAMPGROUNDS";
+// export const FETCH_CAMPGROUND_DETAILS = 'FETCH_CAMPGROUND_DETAILS';

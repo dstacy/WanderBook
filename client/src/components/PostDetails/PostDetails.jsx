@@ -17,6 +17,7 @@ const Post = () => {
 
   useEffect(() => {
     dispatch(getPost(id));
+    
   }, [id]);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const Post = () => {
       dispatch(getPostsBySearch({ search: 'none', tags: post?.tags.join(',') }));
     }
   }, [post]);
-
+  
   if (!post) return null;
 
   const openPost = (_id) => history.push(`/posts/${_id}`);
@@ -38,17 +39,19 @@ const Post = () => {
   }
 
   const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
-
+  const waterfrontDisplay = post.waterfront ? post.waterfront : 'N';
+  
   return (
     <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>
       <div className={classes.card}>
         <div className={classes.section}>
           <Typography variant="h3" component="h2">{post.title}</Typography>
-          <Typography gutterBottom variant="h6" color="textSecondary" component="h2">{post.tags.map((tag) => (
-            <Link to={`/tags/${tag}`} style={{ textDecoration: 'none', color: '#3f51b5' }}>
-              {` #${tag} `}
-            </Link>
-          ))}
+          <Typography gutterBottom variant="h6" color="textSecondary" component="h2">
+            {post.tags.map((tag) => (
+              <Link to={`/tags/${tag}`} style={{ textDecoration: 'none', color: '#3f51b5' }}>
+                {` #${tag} `}
+              </Link>
+            ))}
           </Typography>
           <Typography gutterBottom variant="body1" component="p">{post.message}</Typography>
           <Typography variant="h6">
@@ -59,7 +62,12 @@ const Post = () => {
           </Typography>
           <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
           <Divider style={{ margin: '20px 0' }} />
-          <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
+          <Typography variant="body1"><strong>State: </strong>{post.state}</Typography>
+          <Typography variant="body1"><strong>Electric Hookup: </strong>{post.amps}</Typography>
+          <Typography variant="body1"><strong>Water Hookup: </strong>{post.water}</Typography>
+          <Typography variant="body1"><strong>Sewer Hookup: </strong>{post.sewer}</Typography>
+          <Typography variant="body1"><strong>Pets Allowed: </strong>{post.pets}</Typography>
+          <Typography variant="body1"><strong>Waterfront: </strong>{waterfrontDisplay}</Typography>
           <Divider style={{ margin: '20px 0' }} />
           <CommentSection post={post} />
           <Divider style={{ margin: '20px 0' }} />

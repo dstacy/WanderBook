@@ -1,11 +1,14 @@
 import axios from 'axios';
 import { parseString } from 'xml2js';
 
+const key = '37jxdp7s73qwpbs6d7fx58f7';
+
 export const getCampgrounds = async (req, res) => {
     const { pname } = req.params;
-    const encodedPname = encodeURIComponent(pname);
+   
     try {
-        const url = `https://api.amp.active.com/camping/campgrounds/?pname=${pname}&api_key=37jxdp7s73qwpbs6d7fx58f7`;
+        const url = `https://api.amp.active.com/camping/campgrounds/?pname=${pname}&api_key=${key}`;
+        
         const response = await axios.get(url, { maxRedirects: 10 });
         
         const xmlData = response.data;
@@ -24,4 +27,3 @@ export const getCampgrounds = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-

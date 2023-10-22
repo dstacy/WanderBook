@@ -11,18 +11,25 @@ import { createPost, updatePost, getCampgrounds } from '../../actions/posts';
 import useStyles from './styles';
 
 const Form = ({ currentId, setCurrentId }) => {
-  const [postData, setPostData] = useState({ title: '', site: '', pros: '', cons: '', message: '', tags: [], selectedFile: '' });
+  const [postData, setPostData] = useState({ title: '', site: '', pros: '', cons: '', message: '', state: '', amps: '', pets: '', sewer: '', water: '', waterfront: '', tags: [], selectedFile: '' });
+  
   const [prevFirstWord, setPrevFirstWord] = useState('');
   const post = useSelector((state) => (currentId ? state.posts.posts.find((message) => message._id === currentId) : null));
   const dispatch = useDispatch();
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem('profile'));
   const history = useHistory();
+  const [state, setState] = useState('');
+  const [amps, setAmps] = useState('');
+  const [pets, setPets] = useState('');
+  const [sewer, setSewer] = useState('');
+  const [water, setWater] = useState('');
+  const [waterfront, setWaterfront] = useState('');
 
   const handleApiCall = (title) => {
     // Check the minimum character requirement and pass the first word as pname
     if (title.length > 3) {
-      const firstWord = title.split(' ')[0];
+      const firstWord = title.substring(0,4);
       dispatch(getCampgrounds(firstWord));
     };
   };
@@ -31,28 +38,29 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const campgrounds = useSelector((state) => state.posts.campgrounds);
 
+  // create an array of facilityNames associated with title field
   const facilityNames = Array.isArray(campgrounds?.resultset?.result)
     ? campgrounds.resultset.result.map((campground) => campground.$.facilityName)
     : [];
 
   const clear = () => {
     setCurrentId(0);
-    setPostData({ title: '', site: '', pros: '', cons: '', message: '', tags: [], selectedFile: '' });
+    setPostData({ title: '', site: '', pros: '', cons: '', message: '', contractID: '', facilityID: '', state: '', amps: '', pets: '', sewer: '', water: '', waterfront: '', tags: [], selectedFile: ''  });
   };
 
   useEffect(() => {
     if (!post?.title) clear();
     if (post) {
       setPostData(post);
+
     }
   }, [post]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     dispatch(getCampgrounds());
-  }, [dispatch]);
+  }, [dispatch]);*/
 
   const handleTitleChange = (e) => {
-    console.log("Called Title Change");
     const title = e.target.value;
     setPostData({ ...postData, title });
     const words = title.split(' ');
@@ -68,17 +76,46 @@ const Form = ({ currentId, setCurrentId }) => {
   };
 
   const filteredFacilityNames = facilityNames.filter((name) => name.toLowerCase().includes(postData.title.toLowerCase()));
+  
+  // extract campgrund amenities from user-selected campground to populate in PostDetails component
+  useEffect(() => {
+    if (postData.title && Array.isArray(campgrounds?.resultset?.result)) { // Check if campgrounds.resultset.result is available
+      const campgroundsArray = campgrounds.resultset.result;
+    
+      const selectedCampground = campgroundsArray.find(campground => campground.$.facilityName === postData.title);
+
+      if(selectedCampground) {
+      const state = selectedCampground.$.state || '';
+      const amps = selectedCampground.$.sitesWithAmps || '';
+      const pets = selectedCampground.$.sitesWithPetsAllowed || '';
+      const sewer = selectedCampground.$.sitesWithSewerHookup || '';
+      const water = selectedCampground.$.sitesWithWaterHookup || '';
+      const waterfront = selectedCampground.$.sitesWithWaterfront || '';
+
+      setState(state);
+      setAmps(amps);
+      setPets(pets);
+      setSewer(sewer);
+      setWater(water);
+      setWaterfront(waterfront);
+
+      setPostData({ ...postData, state, amps, pets, sewer, water, waterfront});
+      } 
+
+    }
+  }, [postData.title, campgrounds]);
+     
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     if (currentId === 0) {
       dispatch(
-        createPost({ ...postData, name: user?.result?.name }, history)
+        createPost({ ...postData, name: user?.result?.name, state: state, amps: amps, pets: pets, sewer: sewer, water: water, waterfront: waterfront }, history)
       );
       clear();
     } else {
-      dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
+      dispatch(updatePost(currentId, { ...postData, name: user?.result?.name, state: state, amps: amps, pets: pets, sewer: sewer, water: water, waterfront: waterfront }));
       clear();
     }
   };
