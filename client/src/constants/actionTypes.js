@@ -12,3 +12,8 @@ export const FETCH_BY_CREATOR = 'FETCH_BY_CREATOR';
 
 export const AUTH = 'AUTH';
 export const LOGOUT = 'LOGOUT';
+
+export const FETCH_ALL_LISTS = 'FETCH_ALL_LISTS';
+export const CREATE_LIST = 'CREATE_LIST';
+export const UPDATE_LIST = 'UPDATE_LIST';
+export const DELETE_LIST = 'DELETE_LIST';

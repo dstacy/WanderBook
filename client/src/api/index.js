@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'http://localhost:5000' });
+const API = axios.create({ baseURL: 'http://localhost:5000/lists' });
+const url = 'http://localhost:5000/lists';
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
@@ -22,3 +23,8 @@ export const deletePost = (id) => API.delete(`/posts/${id}`);
 
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);
+
+export const fetchLists = () => axios.get(url);
+export const createList = (newList) => axios.post(url, newList);
+export const updateList = (id, updatedList) => axios.patch(`${url}/${id}`, updatedList);
+export const deleteList = (id) => axios.delete(`${url}/${id}`);

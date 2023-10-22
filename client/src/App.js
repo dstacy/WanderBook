@@ -1,31 +1,45 @@
-import React from 'react';
-import { Container } from '@material-ui/core';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Container, AppBar, Typography, Grow, Grid } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+// react-table is used for lists but may be deleted if it doesn't work out.
+import { useTable } from 'react-table';
 
-import PostDetails from './components/PostDetails/PostDetails';
-import Navbar from './components/Navbar/Navbar';
-import Home from './components/Home/Home';
-import Auth from './components/Auth/Auth';
-import CreatorOrTag from './components/CreatorOrTag/CreatorOrTag';
+import { getLists } from './actions/lists';
+// import Home from './pages/home';
+import Lists from './components/Lists/Lists';
+import ListForm from './components/ListForm/ListForm';
+import memories from './images/memoriesText.png';
+import useStyles from './styles';
 
 const App = () => {
-  const user = JSON.parse(localStorage.getItem('profile'));
+    const [currentId, setCurrentId] = useState(null);
+    const classes = useStyles();
+    const dispatch = useDispatch();
 
-  return (
-    <BrowserRouter>
-      <Container maxWidth="xl">
-        <Navbar />
-        <Switch>
-          <Route path="/" exact component={() => <Redirect to="/posts" />} />
-          <Route path="/posts" exact component={Home} />
-          <Route path="/posts/search" exact component={Home} />
-          <Route path="/posts/:id" exact component={PostDetails} />
-          <Route path={['/creators/:name', '/tags/:name']} component={CreatorOrTag} />
-          <Route path="/auth" exact component={() => (!user ? <Auth /> : <Redirect to="/posts" />)} />
-        </Switch>
-      </Container>
-    </BrowserRouter>
-  );
+    useEffect(() => {
+        dispatch(getLists());
+    }, [currentId, dispatch]);
+
+    return (
+        <Container maxwidth="lg">
+            <AppBar className={classes.appBar} position="static" color="inherit">
+                <Typography className={classes.heading} varian="h2" align="center">Memories</Typography>
+                <img className={classes.image} src={memories} alt="memories" height="60" />
+            </AppBar>
+            <Grow in>
+                <Container>
+                    <Grid container justifyContent="space-between" alignItems="stretch" spacing={3}>
+                        <Grid item xs={12} sm={7}>
+                            <Lists setCurrentId={setCurrentId} />
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <ListForm currentId={currentId} setCurrentId={setCurrentId} />
+                        </Grid>
+                    </Grid>
+                </Container>
+            </Grow>
+        </Container>
+    );
 };
 
 export default App;
