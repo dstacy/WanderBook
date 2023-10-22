@@ -26,7 +26,7 @@ export const createList = (list) => async (dispatch) => {
         console.log('CREATE_LIST failed in Actions/Lists');
     }
 };
-// comments for git testing
+
 export const updateList = (id, list) => async (dispatch) => {
     try {
         console.log('Waiting on api.updateList');
