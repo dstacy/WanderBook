@@ -26,14 +26,13 @@ export const createList = (list) => async (dispatch) => {
         console.log('CREATE_LIST failed in Actions/Lists');
     }
 };
-
+// comments for git testing
 export const updateList = (id, list) => async (dispatch) => {
     try {
         console.log('Waiting on api.updateList');
         const { data } = await api.updateList(id, list);
         console.log('UPDATE_LIST Called from actions/lists');
         dispatch({ type: UPDATE_LIST, payload: data });
-        return;
     } catch (error) {
         console.log(error);
     }
@@ -42,7 +41,7 @@ export const updateList = (id, list) => async (dispatch) => {
 export const deleteList = (id) => async (dispatch) => {
     try {
         const shouldDelete = window.confirm('Are you sure you want to delete the list?');
-        
+
         if (shouldDelete) {
             console.log('DELETE_LIST called from actions/lists');
             await api.deleteList(id);

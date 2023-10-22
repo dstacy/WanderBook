@@ -13,7 +13,7 @@ import { deleteList, updateList } from '../../../actions/lists';
 import useStyles from './styles';
 
 const List = ({ list, setCurrentId }) => {
-    const [item, setItem] = useState({ name: '', category: ''});
+    const [item, setItem] = useState({ name: '', category: '' });
     // set useState to list.item so the list would populate with current items in the database
     const [newItems, setNewItems] = useState(list.items);
     const currentId = list._id;
@@ -39,7 +39,7 @@ const List = ({ list, setCurrentId }) => {
     const addItem = () => {
         // set if statement so a blank item couldn't be added to the list
         if (item.name) {
-            // const lowerCaseItemName = item.name.toLowerCase(); 
+            // const lowerCaseItemName = item.name.toLowerCase();
             // If Item already exists in newItem then it will not be added.
             // Alert user if the item already exists
             if (!newItems.some((existingItem) => existingItem.name.toLowerCase() === item.name.toLowerCase())) {
@@ -50,7 +50,7 @@ const List = ({ list, setCurrentId }) => {
                 console.log('Item already exists in the array.');
             }
         }
-        
+
         // set the item field back to blank
         setItem({ name: '', category: '' });
     };
@@ -71,7 +71,7 @@ const List = ({ list, setCurrentId }) => {
             setNewItems([]);
         }
     };
-   
+
     // const handleItemNameChange = (e) => {
     //     setItem({ ...item, name: e.target.value });
     // };
@@ -118,7 +118,7 @@ const List = ({ list, setCurrentId }) => {
             <br />
             <br />
                 <div>
-                    <input type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} onKeyDown={handleKeyPress}/>
+                    <input type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} onKeyDown={handleKeyPress} />
                     <Button onClick={addItem}>
                         <AddIcon />
                     </Button>
