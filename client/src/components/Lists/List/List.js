@@ -39,16 +39,18 @@ const List = ({ list, setCurrentId }) => {
     const addItem = () => {
         // set if statement so a blank item couldn't be added to the list
         if (item.name) {
+            // const lowerCaseItemName = item.name.toLowerCase(); 
             // If Item already exists in newItem then it will not be added.
             // Alert user if the item already exists
-            if (!newItems.includes(item)) {
+            if (!newItems.some((existingItem) => existingItem.name.toLowerCase() === item.name.toLowerCase())) {
+                // If it doesn't exist, add the item
                 setNewItems((prev) => ([...prev, item]));
             } else {
                 window.alert('This item is already in the lest.');
                 console.log('Item already exists in the array.');
             }
         }
-
+        
         // set the item field back to blank
         setItem({ name: '', category: '' });
     };
@@ -64,7 +66,10 @@ const List = ({ list, setCurrentId }) => {
 
     // clears the entire list
     const clearList = () => {
-        setNewItems([]);
+        const shouldClear = window.confirm('Are you sure you want to clear the entire list?');
+        if (shouldClear) {
+            setNewItems([]);
+        }
     };
    
     // const handleItemNameChange = (e) => {
@@ -83,6 +88,13 @@ const List = ({ list, setCurrentId }) => {
             const updatedItems = [...newItems];
             updatedItems[index] = { name: updatedName, category: updatedCategory };
             setNewItems(updatedItems);
+        }
+    };
+
+    // code to addItem if "Enter" is pressed
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            addItem();
         }
     };
 
@@ -106,7 +118,7 @@ const List = ({ list, setCurrentId }) => {
             <br />
             <br />
                 <div>
-                    <input type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} />
+                    <input type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} onKeyDown={handleKeyPress}/>
                     <Button onClick={addItem}>
                         <AddIcon />
                     </Button>

@@ -41,9 +41,13 @@ export const updateList = (id, list) => async (dispatch) => {
 
 export const deleteList = (id) => async (dispatch) => {
     try {
-        console.log('DELETE_LIST called from actions/lists');
-        await api.deleteList(id);
-        dispatch({ type: DELETE_LIST, payload: id });
+        const shouldDelete = window.confirm('Are you sure you want to delete the list?');
+        
+        if (shouldDelete) {
+            console.log('DELETE_LIST called from actions/lists');
+            await api.deleteList(id);
+            dispatch({ type: DELETE_LIST, payload: id });
+        }
     } catch (error) {
         console.log(error);
     }
