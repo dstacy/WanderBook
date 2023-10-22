@@ -1,5 +1,6 @@
-import { START_LOADING, END_LOADING, FETCH_ALL, FETCH_POST, FETCH_BY_SEARCH, CREATE, UPDATE, DELETE, LIKE, COMMENT, FETCH_BY_CREATOR } from '../constants/actionTypes';
+import { START_LOADING, END_LOADING, FETCH_ALL, FETCH_POST, FETCH_BY_SEARCH, CREATE, UPDATE, DELETE, LIKE, COMMENT, FETCH_BY_CREATOR, FETCH_CAMPGROUNDS } from '../constants/actionTypes';
 import * as api from '../api/index.js';
+import * as campAPI from '../api/camping.js';
 
 export const getPost = (id) => async (dispatch) => {
   try {
@@ -64,6 +65,7 @@ export const createPost = (post, history) => async (dispatch) => {
 
 export const updatePost = (id, post) => async (dispatch) => {
   try {
+    console.log(post);
     const { data } = await api.updatePost(id, post);
 
     dispatch({ type: UPDATE, payload: data });
@@ -98,10 +100,21 @@ export const commentPost = (value, id) => async (dispatch) => {
 
 export const deletePost = (id) => async (dispatch) => {
   try {
-    await await api.deletePost(id);
+    await api.deletePost(id);
 
     dispatch({ type: DELETE, payload: id });
   } catch (error) {
     console.log(error);
+  }
+};
+
+
+export const getCampgrounds = (pname) => async (dispatch) => {
+  try {
+  const { data } = await campAPI.fetchCampgroundSearch(pname);
+  
+    dispatch({ type: FETCH_CAMPGROUNDS, payload: { data } });
+  } catch (error) {
+    console.log("Error in Campgrounds", error);
   }
 };

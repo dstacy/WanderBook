@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, Paper, Grid, Typography, Container } from '@material-ui/core';
+import { Button, Paper, Grid, Container } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import logo from '../../images/WanderBookPart.png';
