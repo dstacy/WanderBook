@@ -39,7 +39,6 @@ const List = ({ list, setCurrentId }) => {
     const addItem = () => {
         // set if statement so a blank item couldn't be added to the list
         if (item.name) {
-            // const lowerCaseItemName = item.name.toLowerCase();
             // If Item already exists in newItem then it will not be added.
             // Alert user if the item already exists
             if (!newItems.some((existingItem) => existingItem.name.toLowerCase() === item.name.toLowerCase())) {
@@ -71,14 +70,6 @@ const List = ({ list, setCurrentId }) => {
             setNewItems([]);
         }
     };
-
-    // const handleItemNameChange = (e) => {
-    //     setItem({ ...item, name: e.target.value });
-    // };
-
-    // const handleItemCategoryChange = (e) => {
-    //     setItem({ ...item, category: e.target.value });
-    // };
 
     // edit an existing item in an existing list
     const editItem = (index) => {
