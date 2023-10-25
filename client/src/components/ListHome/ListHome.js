@@ -12,7 +12,7 @@ import { getLists } from '../../actions/lists'; // Adjust the import path as nee
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
-const Home = () => {
+const ListHome = () => {
   const classes = useStyles();
   const query = useQuery();
   const page = query.get('page') || 1;
@@ -41,4 +41,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default ListHome;
