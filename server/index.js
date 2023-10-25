@@ -7,6 +7,7 @@ import cors from 'cors';
 import postRoutes from './routes/posts.js';
 import userRouter from './routes/user.js';
 import campRoutes from './routes/campgrounds.js';
+import listRoutes from './routes/lists.js'
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
 app.use('/posts', postRoutes);
 app.use('/user', userRouter);
 app.use('/campgrounds', campRoutes);
+app.use('/lists', listRoutes);
 
 // Note to self: move creds to environmental before deployment
 const CONNECTION_URL = process.env.MONGODB_URI;

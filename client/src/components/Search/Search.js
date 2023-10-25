@@ -67,7 +67,7 @@ const Search = () => {
             </AppBar>
             {(!searchQuery && !tags.length) && (
               <Paper className={classes.pagination} elevation={6}>
-                <Pagination page={page} />
+                <Pagination page={page} action={getPostsBySearch} selector={(state) => state.posts} uniqueKey="search" />
               </Paper>
             )}
           </Grid>

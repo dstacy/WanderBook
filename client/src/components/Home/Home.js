@@ -9,6 +9,8 @@ import Posts from '../Posts/Posts';
 import Form from '../Form/Form';
 import Pagination from '../Pagination';
 import useStyles from './styles';
+import { getPosts } from '../../actions/posts'; // Adjust the import path as needed
+
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -45,7 +47,7 @@ const Home = () => {
           <Grid item xs={12} sm={6} md={3}>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
               <Paper className={classes.pagination} elevation={6}>
-                <Pagination page={page} />
+              <Pagination page={page} action={getPosts} selector={(state) => state.posts} uniqueKey="posts" />
               </Paper>
           </Grid>
         </Grid>

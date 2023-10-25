@@ -22,3 +22,8 @@ export const deletePost = (id) => API.delete(`/posts/${id}`);
 
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);
+
+export const fetchLists = (page) => API.get(`/lists?page=${page}`);
+export const createList = (newList) => API.post('/lists', newList);
+export const updateList = (id, updatedList) => API.patch(`/lists/${id}`, updatedList);
+export const deleteList = (id) => API.delete(`/lists/${id}`);
