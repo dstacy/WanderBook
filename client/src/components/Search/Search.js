@@ -6,18 +6,19 @@ import ChipInput from 'material-ui-chip-input';
 
 import { getPostsBySearch } from '../../actions/posts';
 import Posts from '../Posts/Posts';
-import Form from '../Form/Form';
 import Pagination from '../Pagination';
 import useStyles from './styles';
 
+// parse and extract query parameters from the URL.
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
+
 const Search = () => {
   const classes = useStyles();
   const query = useQuery();
-  const page = query.get('page') || 1;
-  const searchQuery = query.get('searchQuery');
+  const page = query.get('page') || 1; // get current page parameter from URL or 1 if empty
+  const searchQuery = query.get('searchQuery'); // get the searchQuery parameter from URL
 
   const [currentId, setCurrentId] = useState(0);
 
@@ -34,10 +35,29 @@ const Search = () => {
   const history = useHistory();
 
   const searchPost = () => {
-    if (search.trim() || tags) {
-      dispatch(getPostsBySearch({ search, tags: tags.join(',') }));
-      history.push(`/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`);
+    // Create a filter object to include the filter criteria
+    const filters = {
+      site,
+      state,
+      amps: ampsSelected,
+      water: waterSelected,
+      pets: petsSelected,
+      sewer: sewerSelected,
+      search,
+      tags: tags.join(','),
+    };
+  
+    // Check if any of the filter criteria are not empty
+    const isFilterNotEmpty =
+      Object.values(filters).some((value) => (value !== undefined && value !== ''));
+  
+    if (isFilterNotEmpty) {
+      dispatch(getPostsBySearch(filters));
+      // Construct the query string based on the filter criteria
+      const queryString = new URLSearchParams(filters).toString();
+      history.push(`/search?${queryString}`);
     } else {
+      // Navigate to the default route or home page
       history.push('/');
     }
   };
@@ -75,7 +95,7 @@ const Search = () => {
                 onKeyDown={handleKeyPress}
                 name="search"
                 variant="outlined"
-                label="Search Memories"
+                label="Search For Adeventures"
                 fullWidth
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
