@@ -107,7 +107,7 @@ const Search = () => {
                 value={tags}
                 onAdd={(chip) => handleAddChip(chip)}
                 onDelete={(chip) => handleDeleteChip(chip)}
-                label="Search Tags"
+                label="Search Tags - Hit Enter"
                 variant="outlined"
               />
               <TextField
