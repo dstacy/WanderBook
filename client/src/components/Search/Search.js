@@ -28,6 +28,7 @@ const Search = () => {
   const [waterSelected, setWaterSelected] = useState(false);
   const [petsSelected, setPetsSelected] = useState(false);
   const [sewerSelected, setSewerSelected] = useState(false);
+  const [waterfrontSelected, setWaterfrontSelected] = useState(false);
   const dispatch = useDispatch();
 
   const [search, setSearch] = useState('');
@@ -43,6 +44,7 @@ const Search = () => {
       water: waterSelected,
       pets: petsSelected,
       sewer: sewerSelected,
+      waterfront: waterfrontSelected,
       search,
       tags: tags.join(','),
     };
@@ -168,6 +170,17 @@ const Search = () => {
                   />
                 }
                 label="Sewer"
+              />
+                <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={waterfrontSelected}
+                    onChange={(e) => setWaterfrontSelected(e.target.checked)}
+                    name="waterfrontSelected"
+                    color="primary"
+                  />
+                }
+                label="Waterfront"
               />
 
               <Button

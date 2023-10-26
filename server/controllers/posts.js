@@ -22,8 +22,8 @@ export const getPosts = async (req, res) => {
 }
 
 export const getPostsBySearch = async (req, res) => {
-    const { search, tags, site, state, amps, water, pets, sewer } = req.query;
-    console.log(req.query);
+    const { search, tags, site, state, amps, water, pets, sewer, waterfront } = req.query;
+    
     try {
         const filters = {}; // Initialize the filters object
 
@@ -34,8 +34,8 @@ export const getPostsBySearch = async (req, res) => {
       
       // Apply the tags filter with an "in" query
       if (tags) {
-        filters.tags = { $in: tags.split(',') };
-        // filters.tags = { $in: tags.map(tag => ({ $regex: new RegExp(tags, 'i') })) };
+        const tagRegexArray = tags.split(',').map(tag => new RegExp(tag.trim(), 'i'));
+        filters.tags = { $in: tagRegexArray };
       }
       
       // Apply the site filter
@@ -67,11 +67,18 @@ export const getPostsBySearch = async (req, res) => {
       if (sewer === 'true') {
         filters.sewer = 'Y';
       }
-      
+
+      if (waterfront === 'true') {
+        filters.$and = [
+          { waterfront: { $ne: '' } },  // Exclude documents where waterfront is 'N'
+          { waterfront: { $exists: true } },  // Exclude documents where waterfront doesn't exist
+        ];
+      }
+
       console.log(filters);
       // Filter posts based on the defined criteria
       const posts = await PostMessage.find(filters);
-  
+    
       res.json({ data: posts });
     } catch (error) {    
       res.status(404).json({ message: error.message });
