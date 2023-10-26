@@ -15,10 +15,10 @@ export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
 export const fetchPostsByCreator = (name) => API.get(`/posts/creator?name=${name}`);
 //export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
 export const fetchPostsBySearch = (searchQuery) => {
-  const { search = 'none', tags = '', site = '', state = '', amps = false, water = false, pets = false, sewer = false } = searchQuery;
+  const { search = 'none', tags = '', site = '', state = '', amps = false, water = false, pets = false, sewer = false, waterfront = false } = searchQuery;
 
   const queryString = new URLSearchParams({
-    search, tags, site, state, amps, water, pets, sewer
+    search, tags, site, state, amps, water, pets, sewer, waterfront
   }).toString();
 
   return API.get(`/posts/search?${queryString}`);
