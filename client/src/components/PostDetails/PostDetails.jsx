@@ -22,7 +22,7 @@ const Post = () => {
 
   useEffect(() => {
     if (post) {
-      dispatch(getPostsBySearch({ search: 'none', tags: post?.tags.join(',') }));
+      dispatch(getPostsBySearch({ tags: post?.tags.join(',') }));
     }
   }, [post]);
   
@@ -47,12 +47,18 @@ const Post = () => {
         <div className={classes.section}>
           <Typography variant="h3" component="h2">{post.title}</Typography>
           <Typography gutterBottom variant="h6" color="textSecondary" component="h2">
-            {post.tags.map((tag) => (
-              <Link to={`/tags/${tag}`} style={{ textDecoration: 'none', color: '#3f51b5' }}>
-                {` #${tag} `}
-              </Link>
+            {post.tags.map((tag, index) => (
+            <Link
+              key={`${tag}_${index}`}
+              to={`/tags/${tag}`}
+              style={{ textDecoration: 'none', color: '#3f51b5' }}
+            >
+              {`#${tag} `}
+            </Link>
             ))}
           </Typography>
+
+
           <Typography gutterBottom variant="body1" component="p">{post.message}</Typography>
           <Typography variant="h6">
             Created by:

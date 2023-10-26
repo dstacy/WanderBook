@@ -78,6 +78,8 @@ export const getPostsBySearch = async (req, res) => {
       console.log(filters);
       // Filter posts based on the defined criteria
       const posts = await PostMessage.find(filters);
+
+      console.log(posts);
     
       res.json({ data: posts });
     } catch (error) {    
