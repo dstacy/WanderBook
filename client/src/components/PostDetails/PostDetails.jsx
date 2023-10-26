@@ -63,6 +63,7 @@ const Post = () => {
           <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
           <Divider style={{ margin: '20px 0' }} />
           <Typography variant="body1"><strong>State: </strong>{post.state}</Typography>
+          <Typography variant="body1"><strong>Site: </strong>{post.site}</Typography>
           <Typography variant="body1"><strong>Electric Hookup: </strong>{post.amps}</Typography>
           <Typography variant="body1"><strong>Water Hookup: </strong>{post.water}</Typography>
           <Typography variant="body1"><strong>Sewer Hookup: </strong>{post.sewer}</Typography>
