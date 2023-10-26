@@ -56,10 +56,6 @@ const Form = ({ currentId, setCurrentId }) => {
     }
   }, [post]);
 
-  /*useEffect(() => {
-    dispatch(getCampgrounds());
-  }, [dispatch]);*/
-
   const handleTitleChange = (e) => {
     const title = e.target.value;
     setPostData({ ...postData, title });
@@ -105,7 +101,6 @@ const Form = ({ currentId, setCurrentId }) => {
     }
   }, [postData.title, campgrounds]);
      
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -146,14 +141,17 @@ const Form = ({ currentId, setCurrentId }) => {
         </div>
         <div style={{ padding: '0 17px 0 0', width: '100%' }}>
           <Autocomplete
+          freeSolo
+          autoSelect
           id="title"
+          value={postData.title} 
           onInputChange={(event, newValue) => {
             handleTitleChange({ target: { value: newValue } });
           }}
           options={postData.title ? filteredFacilityNames : []}
           getOptionLabel={(option) => option}
           renderInput={(params) => (
-            <TextField {...params} label="Campground Name" variant="outlined" value={postData.title} />
+            <TextField {...params} label="Campground Name" variant="outlined"/>
           )}
         />
         </div>
