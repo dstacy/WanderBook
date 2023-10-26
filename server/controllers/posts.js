@@ -34,7 +34,8 @@ export const getPostsBySearch = async (req, res) => {
       
       // Apply the tags filter with an "in" query
       if (tags) {
-        filters.tags = { $in: tags.split(',') };
+        const tagRegexArray = tags.split(',').map(tag => new RegExp(tag.trim(), 'i'));
+        filters.tags = { $in: tagRegexArray };
       }
       
       // Apply the site filter
