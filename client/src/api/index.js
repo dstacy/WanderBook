@@ -13,7 +13,16 @@ API.interceptors.request.use((req) => {
 export const fetchPost = (id) => API.get(`/posts/${id}`);
 export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
 export const fetchPostsByCreator = (name) => API.get(`/posts/creator?name=${name}`);
-export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
+//export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
+export const fetchPostsBySearch = (searchQuery) => {
+  const { search = 'none', tags = '', site = '', state = '', amps = false, water = false, pets = false, sewer = false } = searchQuery;
+
+  const queryString = new URLSearchParams({
+    search, tags, site, state, amps, water, pets, sewer
+  }).toString();
+
+  return API.get(`/posts/search?${queryString}`);
+};
 export const createPost = (newPost) => API.post('/posts', newPost);
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
 export const comment = (value, id) => API.post(`/posts/${id}/commentPost`, { value });

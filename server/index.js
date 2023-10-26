@@ -8,6 +8,9 @@ import postRoutes from './routes/posts.js';
 import userRouter from './routes/user.js';
 import campRoutes from './routes/campgrounds.js';
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 const app = express();
 
 app.use(express.json({ limit: '30mb', extended: true }))
@@ -25,7 +28,7 @@ app.use('/user', userRouter);
 app.use('/campgrounds', campRoutes);
 
 // Note to self: move creds to environmental before deployment
-const CONNECTION_URL = 'mongodb+srv://441Slayer:CSCI441Slayer@cluster0.avwlc2m.mongodb.net/';
+const CONNECTION_URL = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 5000;
 
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })

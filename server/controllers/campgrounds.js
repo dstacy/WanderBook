@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { parseString } from 'xml2js';
+import dotenv from 'dotenv'; 
 
-const key = '37jxdp7s73qwpbs6d7fx58f7';
+dotenv.config();
+
+const key = process.env.CAMPGROUND_API_KEY;
 
 export const getCampgrounds = async (req, res) => {
     const { pname } = req.params;
