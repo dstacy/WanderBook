@@ -25,6 +25,7 @@ const Form = ({ currentId, setCurrentId }) => {
   const [sewer, setSewer] = useState('');
   const [water, setWater] = useState('');
   const [waterfront, setWaterfront] = useState('');
+ 
 
   const handleApiCall = (title) => {
     // Check the minimum character requirement and pass the first word as pname
@@ -137,7 +138,7 @@ const Form = ({ currentId, setCurrentId }) => {
     <Paper className={classes.paper} elevation={6}>
       <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
         <div>
-        <Typography variant="h6">{currentId ? `Editing "${post?.title}"` : 'Creating a Memory'}</Typography>
+        <Typography variant="h6">{currentId ? `Editing "${post?.title}"` : 'Share Adventures'}</Typography>
         </div>
         <div style={{ padding: '0 17px 0 0', width: '100%' }}>
           <Autocomplete
@@ -163,7 +164,7 @@ const Form = ({ currentId, setCurrentId }) => {
           <ChipInput
             name="tags"
             variant="outlined"
-            label="Tags"
+            label="Tags - Press Enter"
             fullWidth
             value={postData.tags}
             onAdd={(chip) => handleAddChip(chip)}
