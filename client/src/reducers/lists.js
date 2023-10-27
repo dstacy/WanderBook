@@ -1,4 +1,4 @@
-import { FETCH_ALL_LISTS, CREATE_LIST, DELETE_LIST, UPDATE_LIST } from '../constants/actionTypes';
+import { FETCH_LIST, FETCH_ALL_LISTS, CREATE_LIST, DELETE_LIST, UPDATE_LIST } from '../constants/actionTypes';
 
 export default (state = { isLoading: true, lists: [] }, action) => {
     switch (action.type) {
@@ -6,6 +6,9 @@ export default (state = { isLoading: true, lists: [] }, action) => {
         return { ...state, isLoading: true };
       case 'END_LOADING':
         return { ...state, isLoading: false };
+      case FETCH_LIST:
+        console.log("reducers/lists/FETCH_LIST");
+        return { ...state, list: action.payload.list };
       case FETCH_ALL_LISTS:
         return {
           ...state,

@@ -5,6 +5,18 @@ import ListMessage from '../models/listMessage.js';
 
 const router = express.Router();
 
+export const getList = async (req, res) => { 
+    const { id } = req.params;
+
+    try {
+        const list = await ListMessage.findById(id);
+        
+        res.status(200).json(list);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
 export const getLists = async (req, res) => {
     const { page } = req.query;
     

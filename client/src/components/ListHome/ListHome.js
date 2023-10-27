@@ -32,7 +32,7 @@ const ListHome = () => {
           <Grid item xs={12} sm={6} md={3}>
             <ListForm currentId={currentId} setCurrentId={setCurrentId} />
               <Paper className={classes.pagination} elevation={6}>
-              <Pagination page={page} action={getLists} selector={(state) => state.lists} uniqueKey="list" />
+              <Pagination page={page} action={getLists} selector={(state) => state.lists} uniqueKey="lists" />
               </Paper>
           </Grid>
         </Grid>

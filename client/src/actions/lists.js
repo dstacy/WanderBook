@@ -1,7 +1,22 @@
 // actions/lists
 
-import { START_LOADING, END_LOADING, FETCH_ALL_LISTS, CREATE_LIST, UPDATE_LIST, DELETE_LIST } from '../constants/actionTypes';
+import { START_LOADING, END_LOADING, FETCH_LIST, FETCH_ALL_LISTS, CREATE_LIST, UPDATE_LIST, DELETE_LIST } from '../constants/actionTypes';
 import * as api from '../api/index.js';
+
+export const getList = (id) => async (dispatch) => {
+    try {
+      console.log("Actions/lists/getList started");
+      dispatch({ type: START_LOADING });
+  
+      const { data } = await api.fetchList(id);
+  
+      dispatch({ type: FETCH_LIST, payload: { list: data } });
+      dispatch({ type: END_LOADING });
+      console.log("Actions/lists/getList completed")
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 export const getLists = (page) => async (dispatch) => {
     try {
