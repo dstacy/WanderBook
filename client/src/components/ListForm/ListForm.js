@@ -20,7 +20,7 @@ const ListForm = ({ currentId, setCurrentId }) => {
 
     const clear = () => {
         setCurrentId(null);
-        setListData({ creator: '', title: '', item: '' });
+        setListData({ title: '' });
     };
 
     const handleSubmit = (e) => {

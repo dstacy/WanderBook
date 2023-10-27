@@ -50,4 +50,15 @@ export default makeStyles((theme) => ({
     overflowY: 'auto',
     marginRight: '30px',
   },
+  TableHead: {
+    background: 'orange',
+    borderTop: '3px solid black',
+    borderBottom: '3px solid black',
+  },
+  evenRow: {
+    background: '#fff',
+  },
+  oddRow: {
+    background: '#f0f0f0',
+  },
 }));

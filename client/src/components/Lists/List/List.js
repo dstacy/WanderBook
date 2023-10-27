@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -32,63 +30,63 @@ const List = ({ list, setCurrentId }) => {
 
 
 
-    const createANewItemToAdd = (event) => {
-        // Set Category to default to Main until a category field is created
-        setItem({ ...item, name: event.target.value, category: 'Main' });
-    };
+    // const createANewItemToAdd = (event) => {
+    //     // Set Category to default to Main until a category field is created
+    //     setItem({ ...item, name: event.target.value, category: 'Main' });
+    // };
 
-    const addItem = () => {
-        // set if statement so a blank item couldn't be added to the list
-        if (item.name) {
-            // If Item already exists in newItem then it will not be added.
-            // Alert user if the item already exists
-            if (!newItems.some((existingItem) => existingItem.name.toLowerCase() === item.name.toLowerCase())) {
-                // If it doesn't exist, add the item
-                setNewItems((prev) => ([...prev, item]));
-            } else {
-                window.alert('This item is already in the lest.');
-                console.log('Item already exists in the array.');
-            }
-        }
+    // const addItem = () => {
+    //     // set if statement so a blank item couldn't be added to the list
+    //     if (item.name) {
+    //         // If Item already exists in newItem then it will not be added.
+    //         // Alert user if the item already exists
+    //         if (!newItems.some((existingItem) => existingItem.name.toLowerCase() === item.name.toLowerCase())) {
+    //             // If it doesn't exist, add the item
+    //             setNewItems((prev) => ([...prev, item]));
+    //         } else {
+    //             window.alert('This item is already in the lest.');
+    //             console.log('Item already exists in the array.');
+    //         }
+    //     }
 
-        // set the item field back to blank
-        setItem({ name: '', category: '' });
-    };
+    //     // set the item field back to blank
+    //     setItem({ name: '', category: '' });
+    // };
 
-    // delete an item from an existing list
-    const deleteItem = (index) => {
-        if (window.confirm('Are you sure you want to delete this item?')) {
-            const updatedItems = [...newItems];
-            updatedItems.splice(index, 1);
-            setNewItems(updatedItems);
-        }
-    };
+    // // delete an item from an existing list
+    // const deleteItem = (index) => {
+    //     if (window.confirm('Are you sure you want to delete this item?')) {
+    //         const updatedItems = [...newItems];
+    //         updatedItems.splice(index, 1);
+    //         setNewItems(updatedItems);
+    //     }
+    // };
 
-    // clears the entire list
-    const clearList = () => {
-        const shouldClear = window.confirm('Are you sure you want to clear the entire list?');
-        if (shouldClear) {
-            setNewItems([]);
-        }
-    };
+    // // clears the entire list
+    // const clearList = () => {
+    //     const shouldClear = window.confirm('Are you sure you want to clear the entire list?');
+    //     if (shouldClear) {
+    //         setNewItems([]);
+    //     }
+    // };
 
-    // edit an existing item in an existing list
-    const editItem = (index) => {
-        const updatedName = prompt('Edit the item name:', newItems[index].name);
-        const updatedCategory = prompt('Edit the item category:', newItems[index].category);
-        if (updatedName !== null && updatedCategory !== null) {
-            const updatedItems = [...newItems];
-            updatedItems[index] = { name: updatedName, category: updatedCategory };
-            setNewItems(updatedItems);
-        }
-    };
+    // // edit an existing item in an existing list
+    // const editItem = (index) => {
+    //     const updatedName = prompt('Edit the item name:', newItems[index].name);
+    //     const updatedCategory = prompt('Edit the item category:', newItems[index].category);
+    //     if (updatedName !== null && updatedCategory !== null) {
+    //         const updatedItems = [...newItems];
+    //         updatedItems[index] = { name: updatedName, category: updatedCategory };
+    //         setNewItems(updatedItems);
+    //     }
+    // };
 
-    // code to addItem if "Enter" is pressed
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            addItem();
-        }
-    };
+    // // code to addItem if "Enter" is pressed
+    // const handleKeyPress = (event) => {
+    //     if (event.key === 'Enter') {
+    //         addItem();
+    //     }
+    // };
 
     const openList= (e) => {
         history.push(`/lists/${list._id}`);

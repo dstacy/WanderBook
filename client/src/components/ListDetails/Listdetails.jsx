@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Paper, Typography, CircularProgress, Divider } from '@material-ui/core/';
+import { Button, Paper, Typography, CircularProgress, Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core/';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
@@ -14,14 +14,22 @@ console.log("listDetails/Listdetails");
 
 const List = () => {
   const { list, isLoading } = useSelector((state) => state.lists);
+  console.log('list: ', list);
   const [item, setItem] = useState({ name: '', category: '' });
-  const [newItem, setNewItem] = useState(list ? list.item : []);
+  const [newItem, setNewItem] = useState([]);
+  console.log('newItem: ', newItem);
   const currentId = list ? list._id : null;
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
   const { id } = useParams();
   const [listData, setListData] = useState({ item: newItem });
+
+  useEffect(() => {
+    if(list) {
+      setNewItem(list.items || []);
+    }
+  }, [list]);
 
   useEffect(() => {
     dispatch(getList(id));
@@ -38,19 +46,22 @@ const List = () => {
   }, [listData]);
 
   const createANewItemToAdd = (event) => {
+    const itemName = event.target.value;
     // Set Category to default to Main until a category field is created
-    setItem({ ...item, name: event.target.value, category: 'Main' });
+    const itemCategory = item.category || 'Main';
+    setItem({ name: itemName, category: itemCategory });
   };
 
   const addItemToList = () => {
     // set if statement so a blank item couldn't be added to the list
     if (item.name) {
+      console.log(list)
         // If Item already exists in newItem then it will not be added.
         // Alert user if the item already exists
         if (!newItem.some((existingItem) => existingItem.name.toLowerCase() === item.name.toLowerCase())) {
             setNewItem((prev) => ([...prev, item]));
         } else {
-            window.alert('This item is already in the lest.');
+            window.alert('This item is already in the list.');
             console.log('Item already exists in the array.');
         }
     }
@@ -107,7 +118,6 @@ const List = () => {
   }
 
   console.log('return on listDetails.jsx')
-  console.log()
 
   return (
     <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>
@@ -121,29 +131,50 @@ const List = () => {
             </Link>
           </Typography>
           <Typography variant="body1">{moment(list.createdAt).fromNow()}</Typography>
-          
           <Divider style={{ margin: '20px 0' }} />
         </div>
       </div>
         <br />
         <br />
             <div>
-                <input type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} />
+                <input type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} onKeyPress={handleKeyPress} />
+                <br />
+                <input type="text" value={item.category} placeholder="Add an Category" onChange={(e) => setItem({ ...item, category: e.target.value })} />
                 <Button onClick={addItemToList}>
                     <AddIcon />
                 </Button>
                 <br />
                 <br />
-                <ul className="textFont">
-                    {
-                        newItem.map((item, index) => (
-                          <li key={index}>
-                              {item.name} - {item.category}
-                              <Button size="small" color="primary" onClick={() => editItem(index)}><EditIcon /></Button>
-                              <Button className="deleteItem" size="small" color="primary" onClick={() => deleteItem(index)}><DeleteIcon /></Button>
-                          </li>))
-                    }
-                </ul>
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell className={classes.TableHead}>Item</TableCell>
+                        <TableCell className={classes.TableHead}>Category</TableCell>
+                        <TableCell className={classes.TableHead}>Edit</TableCell>
+                        <TableCell className={classes.TableHead}>Delete</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {newItem.map((item, index) => (
+                        <TableRow key={index} className={index % 2 === 0 ? classes.evenRow : classes.oddRow}>
+                          <TableCell>{item.name}</TableCell>
+                          <TableCell>{item.category}</TableCell>
+                          <TableCell>
+                            <Button size="small" color="primary" onClick={() => editItem(index)}>
+                              <EditIcon />
+                            </Button>
+                          </TableCell>
+                          <TableCell>
+                            <Button className="deleteItem" size="small" color="primary" onClick={() => deleteItem(index)}>
+                              <DeleteIcon />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
             </div>
             <br />
             <br />
