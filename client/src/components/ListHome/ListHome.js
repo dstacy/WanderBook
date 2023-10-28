@@ -16,7 +16,6 @@ const ListHome = () => {
   const classes = useStyles();
   const query = useQuery();
   const page = query.get('page') || 1;
-  const searchQuery = query.get('searchQuery');
 
   const [currentId, setCurrentId] = useState(0);
   

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
@@ -9,9 +9,6 @@ import { deleteList } from '../../../actions/lists';
 import useStyles from './styles';
 
 const List = ({ list, setCurrentId }) => {
-    const [item, setItem] = useState({ name: '', category: '' });
-    // set useState to list.item so the list would populate with current items in the database
-    const currentId = list._id;
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
@@ -37,7 +34,7 @@ const List = ({ list, setCurrentId }) => {
                     </div>
                     <div className={classes.overlay2}>
                         <Button style={{ color: 'white' }} size="small" onClick={() => setCurrentId(list._id)}>
-                            <MoreHorizIcon fontSize="default" />
+                            <MoreHorizIcon fontSize="medium" />
                         </Button>
                     </div>
                     <CardContent>
