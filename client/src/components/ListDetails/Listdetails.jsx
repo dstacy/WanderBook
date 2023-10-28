@@ -13,9 +13,7 @@ import useStyles from './styles';
 
 console.log("listDetails/Listdetails");
 
-
 const List = () => {
-  
   const { id } = useParams();
   console.log("id", id);
   const { list, isLoading } = useSelector((state) => state.lists);
@@ -132,10 +130,7 @@ const List = () => {
         <div className={classes.section}>
           <Typography variant="h3" component="h2">{list.title}</Typography>
           <Typography variant="h6">
-            Created by:
-            <Link to={`/creators/${list.creator}`} style={{ textDecoration: 'none', color: '#3f51b5' }}>
-              {` ${list.creator}`}
-            </Link>
+            Created by: {` ${list.creator}`}
           </Typography>
           <Typography variant="body1">Created: {moment(list.createdAt).format('YYYY-MM-DD')}</Typography>
           <Divider style={{ margin: '20px 0' }} />
