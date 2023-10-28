@@ -13,36 +13,39 @@ import useStyles from './styles';
 console.log("listDetails/Listdetails");
 
 const List = () => {
+  
+  const { id } = useParams();
+  console.log("id", id);
   const { list, isLoading } = useSelector((state) => state.lists);
-  console.log('list: ', list);
   const [item, setItem] = useState({ name: '', category: '' });
-  const [newItem, setNewItem] = useState([]);
-  console.log('newItem: ', newItem);
-  const currentId = list ? list._id : null;
+  const [newItem, setNewItem] = useState(list ? list.items : []);
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
-  const { id } = useParams();
-  const [listData, setListData] = useState({ item: newItem });
+  const [listData, setListData] = useState({ items: newItem });
 
   useEffect(() => {
-    if(list) {
-      setNewItem(list.items || []);
-    }
-  }, [list]);
-
-  useEffect(() => {
+    console.log("Id Changed or set - listDetails Calling getList");
     dispatch(getList(id));
   }, [id]);
 
+  useEffect(() => {
+    if(list && list.items) {
+      console.log("list had Changed or set - setNewItem");
+      setNewItem([...list.items]);
+    }
+  }, [list]);
+
   // When newItem changes, update listData
   useEffect(() => {
-    setListData({ ...listData, items: newItem });
+    console.log("newItem has changed or set - setListData");
+    setListData({ ...listData, items: newItem });    
   }, [newItem]);
 
   // when listData changes, update database
   useEffect(() => {
-    dispatch(updateList(currentId, listData));
+    console.log('listData has changed or set - dispatch(updateList(listData)');
+    dispatch(updateList(id, listData));
   }, [listData]);
 
   const createANewItemToAdd = (event) => {
@@ -55,10 +58,11 @@ const List = () => {
   const addItemToList = () => {
     // set if statement so a blank item couldn't be added to the list
     if (item.name) {
-      console.log(list)
+      console.log("addItemToList has been initiated")
         // If Item already exists in newItem then it will not be added.
         // Alert user if the item already exists
         if (!newItem.some((existingItem) => existingItem.name.toLowerCase() === item.name.toLowerCase())) {
+            console.log("addItemToList calling setNewItem");
             setNewItem((prev) => ([...prev, item]));
         } else {
             window.alert('This item is already in the list.');
@@ -79,7 +83,7 @@ const List = () => {
         updatedItems[index] = { name: updatedName, category: updatedCategory };
         setNewItem(updatedItems);
     }
-};
+  };
 
   // delete an item from an existing list
   const deleteItem = (index) => {
@@ -107,8 +111,6 @@ const List = () => {
 
   if (!list) return null;
 
-  const openList = (_id) => history.push(`/lists/${_id}`);
-
   if (isLoading) {
     return (
       <Paper elevation={6} className={classes.loadingPaper}>
@@ -117,7 +119,8 @@ const List = () => {
     );
   }
 
-  console.log('return on listDetails.jsx')
+  console.log('newItem: ', newItem);
+  console.log('listData: ', listData)
 
   return (
     <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>

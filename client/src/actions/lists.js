@@ -45,8 +45,11 @@ export const createList = (list) => async (dispatch) => {
 export const updateList = (id, list) => async (dispatch) => {
     try {
         const { data } = await api.updateList(id, list);
+        console.log('UPDATE_LIST Called from actions/lists');
    
         dispatch({ type: UPDATE_LIST, payload: data });
+        
+        console.log('UPDATE_LIST Succeeded in Actions/Lists');
     } catch (error) {
         console.log(error);
     }
