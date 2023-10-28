@@ -3,13 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 import useStyles from './styles';
 import { createList, updateList } from '../../actions/lists';
 
 const ListForm = ({ currentId, setCurrentId }) => {
     const user = JSON.parse(localStorage.getItem('profile'));
-    const [listData, setListData] = useState({ creator: user?.result?.name, title: '', items: [{ name: '', category: ''}] });
+    const [listData, setListData] = useState({ creator: user?.result?.name, title: '', items: [{ name: '', category: '', createAt: ''}] });
     const list = useSelector((state) => (currentId ? state.lists.find((l) => l._id === currentId) : null));
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -29,7 +30,11 @@ const ListForm = ({ currentId, setCurrentId }) => {
         if (currentId) {
             dispatch(updateList(currentId, listData));
         } else {
-            dispatch(createList(listData));
+            const newListData = {
+                ...listData, 
+                createdAt: moment().format(),
+            }
+            dispatch(createList(newListData));
         }
 
         clear();
