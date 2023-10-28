@@ -30,7 +30,7 @@ const List = ({ list, setCurrentId }) => {
                 <CardMedia className={classes.media} title={list.title} />
                 <img className={classes.image} src={campFire} alt={list.title} height="100px" width="213px" />
                     <div className={classes.overlay}>
-                        <Typography variant="h6">{list.creator}</Typography>
+                        <Typography variant="h7">{list.creator}</Typography>
                     </div>
                     <div className={classes.overlay2}>
                         <Button style={{ color: 'white' }} size="small" onClick={() => setCurrentId(list._id)}>
