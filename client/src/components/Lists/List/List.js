@@ -27,8 +27,7 @@ const List = ({ list, setCurrentId }) => {
             className={ classes.cardAction } 
             onClick={ openList }
             >
-                <CardMedia className={classes.media} title={list.title} />
-                <img className={classes.image} src={campFire} alt={list.title} height="100px" width="213px" />
+                <CardMedia className={classes.media} image={campFire} alt={list.title} title={list.title} />
                     <div className={classes.overlay}>
                         <Typography variant="h7">{list.creator}</Typography>
                     </div>
