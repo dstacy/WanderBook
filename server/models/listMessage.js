@@ -5,7 +5,7 @@ const listSchema = mongoose.Schema({
     title: String,
     items: [{ name: String, category: String }], 
     creator: String,
-    createAt: {
+    createdAt: {
         type: Date,
         default: new Date()
     },

@@ -10,7 +10,7 @@ import { createList, updateList } from '../../actions/lists';
 
 const ListForm = ({ currentId, setCurrentId }) => {
     const user = JSON.parse(localStorage.getItem('profile'));
-    const [listData, setListData] = useState({ creator: user?.result?.name, title: '', items: [{ name: '', category: '', createAt: ''}] });
+    const [listData, setListData] = useState({ creator: user?.result?.name, title: '', items: [] });
     const list = useSelector((state) => (currentId ? state.lists.find((l) => l._id === currentId) : null));
     const classes = useStyles();
     const dispatch = useDispatch();
