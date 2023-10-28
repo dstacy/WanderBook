@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { deleteList } from '../../../actions/lists';
 
+import campFire from '../../../images/campFire1.jpg';
 import useStyles from './styles';
 
 const List = ({ list, setCurrentId }) => {
@@ -26,11 +27,10 @@ const List = ({ list, setCurrentId }) => {
             className={ classes.cardAction } 
             onClick={ openList }
             >
-                <CardMedia className={classes.media} image='client/src/images/campFire1.jpg' title={list.title} />
+                <CardMedia className={classes.media} title={list.title} />
+                <img className={classes.image} src={campFire} alt={list.title} height="100px" width="213px" />
                     <div className={classes.overlay}>
                         <Typography variant="h6">{list.creator}</Typography>
-                        {/* moment used for showing the creation date.  This may not be necessary. */}
-                        {/* <Typography variant="body2">{moment(list.createdAt).fromNow()}</Typography> */}
                     </div>
                     <div className={classes.overlay2}>
                         <Button style={{ color: 'white' }} size="small" onClick={() => setCurrentId(list._id)}>
