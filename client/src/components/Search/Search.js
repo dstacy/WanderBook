@@ -136,7 +136,7 @@ const Search = () => {
                     color="primary"
                   />
                 }
-                label="Amps"
+                label="Electric Hookup"
               />
               <FormControlLabel
                 control={
@@ -147,7 +147,7 @@ const Search = () => {
                     color="primary"
                   />
                 }
-                label="Water"
+                label="Water Hookup"
               />
               <FormControlLabel
                 control={
@@ -158,7 +158,7 @@ const Search = () => {
                     color="primary"
                   />
                 }
-                label="Pets"
+                label="Pets Allowed"
               />
               <FormControlLabel
                 control={
@@ -169,7 +169,7 @@ const Search = () => {
                     color="primary"
                   />
                 }
-                label="Sewer"
+                label="Sewer Hookup"
               />
                 <FormControlLabel
                 control={
