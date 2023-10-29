@@ -3,10 +3,10 @@ import { AppBar, Typography, Toolbar, Avatar, Button } from '@material-ui/core';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import decode from 'jwt-decode';
-
 import logo from '../../images/WanderBookFull.png';
 import * as actionType from '../../constants/actionTypes';
 import useStyles from './styles';
+
 
 const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
@@ -45,13 +45,13 @@ const Navbar = () => {
           <div className={classes.profile}>
             <Avatar className={classes.purple} alt={user?.result.name} src={user?.result.imageUrl}>{user?.result.name.charAt(0)}</Avatar>
             <Typography className={classes.userName} variant="h6">{user?.result.name}</Typography>
-            <Button className={classes.buttons} component={Link} to="/posts" variant="contained" color="primary">Posts</Button>
-            <Button className={classes.buttons} component={Link} to="/lists" variant="contained" color="primary">Lists</Button>
-            <Button className={classes.buttons} component={Link} to="/search" variant="contained" color="primary">Search</Button>
-            <Button variant="contained" className={classes.buttons} color="secondary" onClick={logout}>Logout</Button>
+            <Button className={classes.buttons} component={Link} to="/posts" variant="contained">Posts</Button>
+            <Button className={classes.buttons} component={Link} to="/lists" variant="contained">Lists</Button>
+            <Button className={classes.buttons} component={Link} to="/search" variant="contained">Search</Button>
+            <Button variant="contained" className={classes.signOut} onClick={logout}>Logout</Button>
           </div>
         ) : (
-          <Button component={Link} to="/auth" variant="contained" color="primary">Sign In</Button>
+          <Button className={classes.buttons} component={Link} to="/auth" variant="contained">Sign In</Button>
         )}
       </Toolbar>
     </AppBar>

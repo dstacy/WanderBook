@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { deepPurple } from '@material-ui/core/colors';
+import { deepPurple, deepOrange } from '@material-ui/core/colors';
 
 export default makeStyles((theme) => ({
   appBar: {
@@ -45,6 +45,13 @@ export default makeStyles((theme) => ({
   },
   buttons: {
     marginLeft: '20px',
+    color: theme.palette.getContrastText(deepPurple[700]),
+    backgroundColor: deepPurple[700],
+  },
+  signOut: {
+    marginLeft: '20px',
+    color: theme.palette.getContrastText(deepOrange[700]),
+    backgroundColor: deepOrange[700],
   },
   userName: {
     display: 'flex',

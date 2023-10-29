@@ -22,7 +22,7 @@ const Post = () => {
 
   useEffect(() => {
     if (post) {
-      dispatch(getPostsBySearch({ search: 'none', tags: post?.tags.join(',') }));
+      dispatch(getPostsBySearch({ tags: post?.tags.join(',') }));
     }
   }, [post]);
   
@@ -47,12 +47,18 @@ const Post = () => {
         <div className={classes.section}>
           <Typography variant="h3" component="h2">{post.title}</Typography>
           <Typography gutterBottom variant="h6" color="textSecondary" component="h2">
-            {post.tags.map((tag) => (
-              <Link to={`/tags/${tag}`} style={{ textDecoration: 'none', color: '#3f51b5' }}>
-                {` #${tag} `}
-              </Link>
+            {post.tags.map((tag, index) => (
+            <Link
+              key={`${tag}_${index}`}
+              to={`/tags/${tag}`}
+              style={{ textDecoration: 'none', color: '#3f51b5' }}
+            >
+              {`#${tag} `}
+            </Link>
             ))}
           </Typography>
+
+
           <Typography gutterBottom variant="body1" component="p">{post.message}</Typography>
           <Typography variant="h6">
             Created by:
@@ -63,6 +69,7 @@ const Post = () => {
           <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
           <Divider style={{ margin: '20px 0' }} />
           <Typography variant="body1"><strong>State: </strong>{post.state}</Typography>
+          <Typography variant="body1"><strong>Site: </strong>{post.site}</Typography>
           <Typography variant="body1"><strong>Electric Hookup: </strong>{post.amps}</Typography>
           <Typography variant="body1"><strong>Water Hookup: </strong>{post.water}</Typography>
           <Typography variant="body1"><strong>Sewer Hookup: </strong>{post.sewer}</Typography>

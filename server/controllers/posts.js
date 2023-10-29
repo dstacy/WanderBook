@@ -22,18 +22,67 @@ export const getPosts = async (req, res) => {
 }
 
 export const getPostsBySearch = async (req, res) => {
-    const { searchQuery, tags } = req.query;
-
+    const { search, tags, site, state, amps, water, pets, sewer, waterfront } = req.query;
+    
     try {
-        const title = new RegExp(searchQuery, "i");
+        const filters = {}; // Initialize the filters object
 
-        const posts = await PostMessage.find({ $or: [ { title }, { tags: { $in: tags.split(',') } } ]});
+      // Define the filter properties to represent the filter criteria
+      if (search) {
+        filters.title = { $regex: new RegExp(search, 'i') };
+      }
+      
+      // Apply the tags filter with an "in" query
+      if (tags) {
+        const tagRegexArray = tags.split(',').map(tag => new RegExp(tag.trim(), 'i'));
+        filters.tags = { $in: tagRegexArray };
+      }
+      
+      // Apply the site filter
+      if (site) {
+        filters.site = { $regex: new RegExp(site, 'i') };
+      }
+      
+      // Apply the state filter
+      if (state) {
+        filters.state = { $regex: new RegExp(state, 'i') };
+      }
+      
+      // Apply the amps filter if "amps" is true
+      if (amps === 'true') {
+        filters.amps = 'Y';
+      }
+      
+      // Apply the water filter if "water" is true
+      if (water === 'true') {
+        filters.water = 'Y';
+      }
+      
+      // Apply the pets filter if "pets" is true
+      if (pets === 'true') {
+        filters.pets = 'Y';
+      }
+      
+      // Apply the sewer filter if "sewer" is true
+      if (sewer === 'true') {
+        filters.sewer = 'Y';
+      }
 
-        res.json({ data: posts });
+      if (waterfront === 'true') {
+        filters.$and = [
+          { waterfront: { $ne: '' } },  // Exclude documents where waterfront is 'N'
+          { waterfront: { $exists: true } },  // Exclude documents where waterfront doesn't exist
+        ];
+      }
+
+      // Filter posts based on the defined criteria
+      const posts = await PostMessage.find(filters);
+      console.log({data: posts});
+      res.json({ data: posts });
     } catch (error) {    
-        res.status(404).json({ message: error.message });
+      res.status(404).json({ message: error.message });
     }
-}
+  }
 
 export const getPostsByCreator = async (req, res) => {
     const { name } = req.query;

@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { deepPurple } from '@material-ui/core/colors';
 
 export default makeStyles((theme) => ({
   appBarSearch: {
@@ -17,4 +18,8 @@ export default makeStyles((theme) => ({
       flexDirection: 'column-reverse',
     },
   },
+  searchButton: {
+    color: theme.palette.getContrastText(deepPurple[700]),
+    backgroundColor: deepPurple[700],
+  }
 }));

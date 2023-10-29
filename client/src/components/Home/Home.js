@@ -19,23 +19,8 @@ const Home = () => {
   const classes = useStyles();
   const query = useQuery();
   const page = query.get('page') || 1;
-  const searchQuery = query.get('searchQuery');
 
   const [currentId, setCurrentId] = useState(0);
-  const dispatch = useDispatch();
-
-  const [search, setSearch] = useState('');
-  const [tags, setTags] = useState([]);
-  const history = useHistory();
-
-  const searchPost = () => {
-    if (search.trim() || tags) {
-      dispatch(getPostsBySearch({ search, tags: tags.join(',') }));
-      history.push(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`);
-    } else {
-      history.push('/');
-    }
-  };
 
   return (
     <Grow in>
