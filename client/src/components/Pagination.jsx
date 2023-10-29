@@ -4,20 +4,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Pagination, PaginationItem } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
 
-import { getPosts } from '../actions/posts';
 import useStyles from './styles';
 
-const Paginate = ({ page }) => {
-  const { numberOfPages } = useSelector((state) => state.posts);
+const Paginate = ({ page, action, selector, uniqueKey }) => {
+  const { numberOfPages } = useSelector(selector);
   const dispatch = useDispatch();
 
   const classes = useStyles();
 
   useEffect(() => {
     if (page) {
-      dispatch(getPosts(page));
+      dispatch(action(page, uniqueKey)); // Dispatch the provided action with the unique key.
     }
-  }, [dispatch, page]);
+  }, [dispatch, page, action, uniqueKey]);
 
   return (
     <Pagination
@@ -27,7 +26,7 @@ const Paginate = ({ page }) => {
       variant="outlined"
       color="primary"
       renderItem={(item) => (
-        <PaginationItem {...item} component={Link} to={`/posts?page=${item.page}`} />
+        <PaginationItem {...item} component={Link} to={`/${uniqueKey}?page=${item.page}`} />
       )}
     />
   );

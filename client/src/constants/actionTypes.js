@@ -15,3 +15,9 @@ export const LOGOUT = 'LOGOUT';
 
 export const FETCH_CAMPGROUNDS = "FETCH_CAMPGROUNDS";
 // export const FETCH_CAMPGROUND_DETAILS = 'FETCH_CAMPGROUND_DETAILS';
+
+export const FETCH_LIST = 'FETCH_LIST';
+export const FETCH_ALL_LISTS = 'FETCH_ALL_LISTS';
+export const CREATE_LIST = 'CREATE_LIST';
+export const UPDATE_LIST = 'UPDATE_LIST';
+export const DELETE_LIST = 'DELETE_LIST';

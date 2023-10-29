@@ -99,14 +99,17 @@ export const commentPost = (value, id) => async (dispatch) => {
 
 export const deletePost = (id) => async (dispatch) => {
   try {
-    await api.deletePost(id);
+    const shouldDelete = window.confirm('Are you sure you want to delete the post?');
 
-    dispatch({ type: DELETE, payload: id });
+    if (shouldDelete) {
+        await api.deletePost(id);
+        dispatch({ type: DELETE, payload: id });
+    }
+
   } catch (error) {
     console.log(error);
   }
 };
-
 
 export const getCampgrounds = (pname) => async (dispatch) => {
   try {
