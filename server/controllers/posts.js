@@ -75,10 +75,9 @@ export const getPostsBySearch = async (req, res) => {
         ];
       }
 
-      console.log(filters);
       // Filter posts based on the defined criteria
       const posts = await PostMessage.find(filters);
-    
+      console.log({data: posts});
       res.json({ data: posts });
     } catch (error) {    
       res.status(404).json({ message: error.message });
