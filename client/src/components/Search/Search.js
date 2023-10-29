@@ -187,7 +187,6 @@ const Search = () => {
                 onClick={searchPost}
                 className={classes.searchButton}
                 variant="contained"
-                color="primary"
               >
                 Search
               </Button>
