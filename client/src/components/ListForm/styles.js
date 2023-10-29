@@ -1,5 +1,6 @@
 // copied from Form/styles.js
 import { makeStyles } from '@material-ui/core/styles';
+import { deepPurple, deepOrange } from '@material-ui/core/colors';
 
 export default makeStyles((theme) => ({
   root: {
@@ -21,5 +22,11 @@ export default makeStyles((theme) => ({
   },
   buttonSubmit: {
     marginBottom: 10,
+    color: theme.palette.getContrastText(deepPurple[700]),
+    backgroundColor: deepPurple[700],
+  },
+  buttonClear: {
+      color: theme.palette.getContrastText(deepOrange[700]),
+      backgroundColor: deepOrange[700],
   },
 }));
