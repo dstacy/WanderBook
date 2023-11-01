@@ -97,7 +97,7 @@ const Search = () => {
                 onKeyDown={handleKeyPress}
                 name="search"
                 variant="outlined"
-                label="Search For Adeventures"
+                label="Search For Adventures"
                 fullWidth
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
