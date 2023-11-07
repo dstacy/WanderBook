@@ -70,6 +70,9 @@ const Post = () => {
           <Divider style={{ margin: '20px 0' }} />
           <Typography variant="body1"><strong>State: </strong>{post.state || 'N/A'}</Typography>
           <Typography variant="body1"><strong>Site: </strong>{post.site || 'N/A'}</Typography>
+          <Typography variant="body1"><strong>Pros: </strong>{post.pros || 'N/A'}</Typography>
+          <Typography variant="body1"><strong>Cons: </strong>{post.cons || 'N/A'}</Typography>
+          <Divider style={{ margin: '20px 0' }} />
           <Typography variant="body1"><strong>Electric Hookup: </strong>{post.amps || 'N/A'}</Typography>
           <Typography variant="body1"><strong>Water Hookup: </strong>{post.water || 'N/A'}</Typography>
           <Typography variant="body1"><strong>Sewer Hookup: </strong>{post.sewer || 'N/A'}</Typography>
