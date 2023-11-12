@@ -1,7 +1,7 @@
 // How the list entry form looks on the list page
 
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Typography, Paper } from '@material-ui/core';
+import { TextField, Button, Typography, Paper, FormControlLabel, Checkbox } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -10,7 +10,7 @@ import { createList, updateList } from '../../actions/lists';
 
 const ListForm = ({ currentId, setCurrentId }) => {
     const user = JSON.parse(localStorage.getItem('profile'));
-    const [listData, setListData] = useState({ creator: user?.result?.name, title: '', items: [] });
+    const [listData, setListData] = useState({ creator: user?.result?.name, title: '', items: [], isPublic: false });
     const list = useSelector((state) => (currentId ? state.lists.find((l) => l._id === currentId) : null));
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -21,7 +21,7 @@ const ListForm = ({ currentId, setCurrentId }) => {
 
     const clear = () => {
         setCurrentId(null);
-        setListData({ title: '' });
+        setListData({ title: '', isPublic: false });
     };
 
     const handleSubmit = (e) => {
@@ -35,7 +35,7 @@ const ListForm = ({ currentId, setCurrentId }) => {
             const newListData = {
                 ...listData, 
                 creator: user.result.name,
-                createdAt: moment().format(),
+                createdAt: moment().format(),   
             }
             dispatch(createList(newListData));
         }
@@ -47,6 +47,10 @@ const ListForm = ({ currentId, setCurrentId }) => {
         <Paper className={classes.paper}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant="h6">{currentId ? 'Editing' : 'Creating' } a List</Typography>
+                <FormControlLabel
+                    control={<Checkbox checked={listData.isPublic} onChange={(e) => setListData({ ...listData, isPublic: e.target.checked })} />}
+                    label="Make Public"
+                />
                 <TextField name="title" variant="outlined" label="List Title" fullWidth value={listData.title} onChange={(e) => setListData({ ...listData, title: e.target.value })} />
                 <Button className={classes.buttonSubmit} variant="contained" size="large" type="submit" fullWidth>Submit</Button>
                 <Button className={classes.buttonClear} variant="contained" size="large" onClick={clear} fullWidth>Clear</Button>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Paper, Typography, CircularProgress, Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core/';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Checkbox } from '@material-ui/core';
+import { Checkbox, FormControlLabel } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,7 +22,7 @@ const List = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
-  const [listData, setListData] = useState({ items: newItem });
+  const [listData, setListData] = useState({ items: newItem, isPublic: false });
 
   useEffect(() => {
     console.log("Id Changed or set - listDetails Calling getList");
@@ -41,7 +41,7 @@ const List = () => {
   // When newItem changes, update listData
   useEffect(() => {
     console.log("newItem has changed or set - setListData");
-    setListData({ ...listData, items: newItem });    
+    setListData({ ...listData, items: newItem, isPublic: list ? list.isPublic : false });    
   }, [newItem]);
 
   // when listData changes, update database
@@ -133,6 +133,10 @@ const List = () => {
             Created by: {` ${list.creator}`}
           </Typography>
           <Typography variant="body1">Created: {moment(list.createdAt).format('YYYY-MM-DD')}</Typography>
+          <FormControlLabel
+              control={<Checkbox checked={listData.isPublic} onChange={(e) => setListData({ ...listData, isPublic: e.target.checked })} />}
+              label="Make Public"
+          />
           <Divider style={{ margin: '20px 0' }} />
         </div>
       </div>
@@ -159,11 +163,11 @@ const List = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {newItem.map((item, index) => (
+                      {newItem.map((listItem, index) => (
                         <TableRow key={index} className={index % 2 === 0 ? classes.evenRow : classes.oddRow}>
                           <TableCell style={{ width: '1% '}}><Checkbox /></TableCell>
-                          <TableCell style={{ width: '20%' }}>{item.name}</TableCell>
-                          <TableCell style={{ width: '20%' }}>{item.category}</TableCell>
+                          <TableCell style={{ width: '20%' }}>{listItem.name}</TableCell>
+                          <TableCell style={{ width: '20%' }}>{listItem.category}</TableCell>
                           <TableCell style={{ width: '1%' }}>
                             <Button size="small" color="primary" onClick={() => editItem(index)}>
                               <EditIcon />
