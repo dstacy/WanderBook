@@ -32,11 +32,11 @@ const List = ({ list, setCurrentId }) => {
     if (!isCurrentUserList) {
         // Don't render the list if it's not created by the current user
         
-        console.log("isCurrentUserList is Null");
+        // console.log("isCurrentUserList is Null");
         return null;
     } else {
         
-        console.log("currentUser.result.name is not Null");
+        // console.log("currentUser.result.name is not Null");
     }
     console.log('returning card');
     return (

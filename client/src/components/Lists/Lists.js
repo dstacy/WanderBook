@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid, CircularProgress } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
@@ -10,9 +10,13 @@ const Lists = ({ setCurrentId }) => {
   const currentUser = JSON.parse(localStorage.getItem('profile')) || { result: { name: null } };
   const classes = useStyles();
 
+  useEffect(() => {
+    
+  }, [lists]);
+
   if (!lists.length && !isLoading) return 'No lists';
 
-  const userLists = lists.filter((list) => list.creator === currentUser.result.name);
+  const userLists = lists.filter((list) => list.creator === currentUser.result.name).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   return (
     isLoading ? <CircularProgress /> : (
