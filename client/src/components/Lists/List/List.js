@@ -10,7 +10,6 @@ import campFire from '../../../images/campFire1.jpg';
 import useStyles from './styles';
 
 const List = ({ list, setCurrentId }) => {
-    const currentUser = JSON.parse(localStorage.getItem('profile')) || { result: { name: null } };
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();

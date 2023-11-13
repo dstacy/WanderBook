@@ -23,6 +23,8 @@ const List = () => {
   const history = useHistory();
   const classes = useStyles();
   const [listData, setListData] = useState({ items: newItem, isPublic: false });
+  const currentUser = JSON.parse(localStorage.getItem('profile')) || { result: { name: null } };
+    
 
   useEffect(() => {
     console.log("Id Changed or set - listDetails Calling getList");
@@ -111,6 +113,8 @@ const List = () => {
     }
   };
 
+  const isCurrentUserCreator = list ? list.creator === currentUser.result.name : false;
+
   if (!list) return null;
 
   if (isLoading) {
@@ -133,29 +137,41 @@ const List = () => {
             Created by: {` ${list.creator}`}
           </Typography>
           <Typography variant="body1">Created: {moment(list.createdAt).format('YYYY-MM-DD')}</Typography>
-          <FormControlLabel
-              control={<Checkbox checked={listData.isPublic} onChange={(e) => setListData({ ...listData, isPublic: e.target.checked })} />}
-              label="Make Public"
-          />
+          {isCurrentUserCreator && (
+            <>
+            <FormControlLabel
+                control={<Checkbox checked={listData.isPublic} onChange={(e) => setListData({ ...listData, isPublic: e.target.checked })} />}
+                label="Make Public"
+            />
+            </>
+          )}
           <Divider style={{ margin: '20px 0' }} />
         </div>
       </div>
         <br />
         <br />
             <div>
+            {isCurrentUserCreator && (
+              <>
                 <input type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} onKeyPress={handleKeyPress} />
                 <br />
                 <input type="text" value={item.category} placeholder="Add an Category" onChange={(e) => setItem({ ...item, category: e.target.value })} />
                 <Button onClick={addItemToList}>
                     <AddIcon />
                 </Button>
+              </>
+            )}
                 <br />
                 <br />
                 <TableContainer>
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell className={classes.TableHead} style={{ width: '1%' }}>Completed</TableCell>
+                      {isCurrentUserCreator && (
+                          <>
+                            <TableCell className={classes.TableHead} style={{ width: '1%' }}>Completed</TableCell>
+                          </>
+                        )}
                         <TableCell className={classes.TableHead} style={{ width: '20%' }}>Item</TableCell>
                         <TableCell className={classes.TableHead} style={{ width: '20%' }}>Category</TableCell>
                         <TableCell className={classes.TableHead} style={{ width: '1%' }}></TableCell>
@@ -165,18 +181,30 @@ const List = () => {
                     <TableBody>
                       {newItem.map((listItem, index) => (
                         <TableRow key={index} className={index % 2 === 0 ? classes.evenRow : classes.oddRow}>
-                          <TableCell style={{ width: '1% '}}><Checkbox /></TableCell>
+                          {isCurrentUserCreator && (
+                          <>
+                            <TableCell style={{ width: '1% '}}><Checkbox /></TableCell>
+                          </>
+                        )}
                           <TableCell style={{ width: '20%' }}>{listItem.name}</TableCell>
                           <TableCell style={{ width: '20%' }}>{listItem.category}</TableCell>
                           <TableCell style={{ width: '1%' }}>
+                        {isCurrentUserCreator && (
+                          <>
                             <Button size="small" color="primary" onClick={() => editItem(index)}>
                               <EditIcon />
                             </Button>
+                          </>
+                        )}
                           </TableCell>
                           <TableCell style={{ width: '1%' }}>
-                            <Button className="deleteItem" size="small" color="primary" onClick={() => deleteItem(index)}>
-                              <DeleteIcon />
-                            </Button>
+                          {isCurrentUserCreator && (
+                            <>
+                              <Button className="deleteItem" size="small" color="primary" onClick={() => deleteItem(index)}>
+                                <DeleteIcon />
+                              </Button>
+                            </>
+                          )}
                           </TableCell>
                         </TableRow>
                       ))}
@@ -187,9 +215,13 @@ const List = () => {
             <br />
             <br />
             <div>
+            {isCurrentUserCreator && (
+              <>
                 <Button onClick={clearList}>
                     <DeleteIcon />Delete All Items
                 </Button>
+              </>
+            )}
             </div>
       
     </Paper>
