@@ -24,6 +24,22 @@ const ListForm = ({ currentId, setCurrentId }) => {
         setListData({ title: '', isPublic: false });
     };
 
+    const handleCheckboxChange = (e) => {
+        setListData({ ...listData, createWithPresetItems: e.target.checked });
+
+        // Add preset items when the checkbox is checked
+        if (e.target.checked) {
+            const presetItems = [
+                { name: 'Tent', category: 'Shelter' },
+                { name: 'Sleeping bag', category: 'Sleeping' },
+                { name: 'More Items', category: 'can be Added' },
+                // Add more items as needed
+            ];
+
+            setListData((prevData) => ({ ...prevData, items: [...prevData.items, ...presetItems] }));
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -50,6 +66,10 @@ const ListForm = ({ currentId, setCurrentId }) => {
                 <FormControlLabel
                     control={<Checkbox checked={listData.isPublic} onChange={(e) => setListData({ ...listData, isPublic: e.target.checked })} />}
                     label="Make Public"
+                />
+                <FormControlLabel
+                    control={<Checkbox checked={listData.createWithPresetItems} onChange={handleCheckboxChange} />}
+                    label="Create with Preset Items"
                 />
                 <TextField name="title" variant="outlined" label="List Title" fullWidth value={listData.title} onChange={(e) => setListData({ ...listData, title: e.target.value })} />
                 <Button className={classes.buttonSubmit} variant="contained" size="large" type="submit" fullWidth>Submit</Button>
