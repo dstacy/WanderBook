@@ -23,6 +23,10 @@ const List = () => {
   const history = useHistory();
   const classes = useStyles();
   const [listData, setListData] = useState({ items: newItem, isPublic: false });
+  const [sortBy, setSortBy] = useState('name'); // Default sorting by name
+  const [sortOrder, setSortOrder] = useState('asc'); // Default sorting order
+
+
   const currentUser = JSON.parse(localStorage.getItem('profile')) || { result: { name: null } };
     
 
@@ -109,9 +113,36 @@ const List = () => {
   // code to addItemToList if "Enter" is pressed
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      addItemToList();
+      if (document.activeElement.tagName === 'INPUT') {
+        addItemToList();
+      }
     }
   };
+
+  // Function to handle sorting option change
+  const handleSortChange = (event) => {
+    setSortBy(event.target.value);
+  };
+
+   // Function to handle sorting order change
+  const handleSortOrderChange = (event) => {
+    setSortOrder(event.target.value);
+  };
+
+  // Function to get sorted items based on the selected sorting option and order
+  const getSortedItems = () => {
+    return newItem.slice().sort((a, b) => {
+      const orderFactor = sortOrder === 'asc' ? 1 : -1;
+
+      if (sortBy === 'name') {
+        return a.name.localeCompare(b.name) * orderFactor;
+      } else if (sortBy === 'category') {
+        return a.category.localeCompare(b.category) * orderFactor;
+      }
+      return 0;
+    });
+  };
+
 
   const isCurrentUserCreator = list ? list.creator === currentUser.result.name : false;
 
@@ -125,11 +156,8 @@ const List = () => {
     );
   }
 
-  console.log('newItem: ', newItem);
-  console.log('listData: ', listData)
-
   return (
-    <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>
+    <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6} onKeyPress={handleKeyPress}>
       <div className={classes.card}>
         <div className={classes.section}>
           <Typography variant="h3" component="h2">{list.title}</Typography>
@@ -153,7 +181,7 @@ const List = () => {
             <div>
             {isCurrentUserCreator && (
               <>
-                <input type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} onKeyPress={handleKeyPress} />
+                <input type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} />
                 <br />
                 <input type="text" value={item.category} placeholder="Add an Category" onChange={(e) => setItem({ ...item, category: e.target.value })} />
                 <Button onClick={addItemToList}>
@@ -161,6 +189,15 @@ const List = () => {
                 </Button>
               </>
             )}
+                  <select value={sortBy} onChange={handleSortChange}>
+                    <option value="name">Sort by Name</option>
+                    <option value="category">Sort by Category</option>
+                  </select>
+                  &nbsp;&nbsp;
+                  <select value={sortOrder} onChange={handleSortOrderChange}>
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                  </select>
                 <br />
                 <br />
                 <TableContainer>
@@ -179,7 +216,7 @@ const List = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {newItem.map((listItem, index) => (
+                      {getSortedItems().map((listItem, index) => (
                         <TableRow key={index} className={index % 2 === 0 ? classes.evenRow : classes.oddRow}>
                           {isCurrentUserCreator && (
                           <>
