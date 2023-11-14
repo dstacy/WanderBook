@@ -47,7 +47,12 @@ const List = () => {
   // When newItem changes, update listData
   useEffect(() => {
     console.log("newItem has changed or set - setListData");
-    setListData({ ...listData, items: newItem, isPublic: list ? list.isPublic : false });    
+    setListData({ ...listData, items: newItem, isPublic: list ? list.isPublic : false });
+    
+    // Focus on the "Add an Item" input field when newItem changes
+    if (isCurrentUserCreator) {
+      document.getElementById('addItemInput').focus();
+    }    
   }, [newItem]);
 
   // when listData changes, update database
@@ -181,7 +186,7 @@ const List = () => {
             <div>
             {isCurrentUserCreator && (
               <>
-                <input type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} />
+                <input id="addItemInput" type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} />
                 <br />
                 <input type="text" value={item.category} placeholder="Add an Category" onChange={(e) => setItem({ ...item, category: e.target.value })} />
                 <Button onClick={addItemToList}>
