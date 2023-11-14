@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Paper, Typography, CircularProgress, Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core/';
+import { Button, Paper, Typography, CircularProgress, Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from '@material-ui/core/';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
@@ -49,11 +49,24 @@ const List = () => {
     console.log("newItem has changed or set - setListData");
     setListData({ ...listData, items: newItem, isPublic: list ? list.isPublic : false });
     
-    // Focus on the "Add an Item" input field when newItem changes
-    if (isCurrentUserCreator) {
-      document.getElementById('addItemInput').focus();
-    }    
+    // // Focus on the "Add an Item" input field when newItem changes
+    // if (isCurrentUserCreator) {
+    //   document.getElementById('addItemInput').focus();
+    // }    
   }, [newItem]);
+
+  useEffect(() => {
+    if (isCurrentUserCreator) {
+      focusOnAddItemInput();
+    }
+  }, []); // empty dependency array means this effect runs once on mount
+  
+  const focusOnAddItemInput = () => {
+    const addItemInput = document.getElementById('addItemInput');
+    if (addItemInput) {
+      addItemInput.focus();
+    }
+  };
 
   // when listData changes, update database
   useEffect(() => {
@@ -77,6 +90,9 @@ const List = () => {
         if (!newItem.some((existingItem) => existingItem.name.toLowerCase() === item.name.toLowerCase())) {
             console.log("addItemToList calling setNewItem");
             setNewItem((prev) => ([...prev, item]));
+            if (isCurrentUserCreator) {
+              focusOnAddItemInput();
+            }
         } else {
             window.alert('This item is already in the list.');
             console.log('Item already exists in the array.');
@@ -205,8 +221,8 @@ const List = () => {
                   </select>
                 <br />
                 <br />
-                <TableContainer>
-                  <Table>
+                <TableContainer style={{ maxHeight: '600px' }}>
+                  <Table stickyHeader>
                     <TableHead>
                       <TableRow>
                       {isCurrentUserCreator && (
