@@ -13,7 +13,12 @@ export const getPosts = async (req, res) => {
         const startIndex = (Number(page) - 1) * LIMIT; // get the starting index of every page
     
         const total = await PostMessage.countDocuments({});
-        const posts = await PostMessage.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
+        const posts = await PostMessage.find({
+          $or: [
+            { isPrivate: false },
+            { creator: req.userId }
+          ]
+        }).sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
 
         res.json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});
     } catch (error) {    
@@ -76,7 +81,17 @@ export const getPostsBySearch = async (req, res) => {
       }
 
       // Filter posts based on the defined criteria
-      const posts = await PostMessage.find(filters);
+      const posts = await PostMessage.find({
+        $and: [
+          filters,
+          {
+            $or: [
+              {isPrivate: false},
+              {creator: req.userId} 
+            ]
+          }
+        ]
+      });
       
       res.json({ data: posts });
     } catch (error) {    
@@ -84,20 +99,27 @@ export const getPostsBySearch = async (req, res) => {
     }
   }
 
-export const getPostsByCreator = async (req, res) => {
+  export const getPostsByCreator = async (req, res) => {
     const { name } = req.query;
 
     try {
-        const posts = await PostMessage.find({ name });
+        const posts = await PostMessage.find({
+            name,
+            $or: [
+                { isPrivate: false }, // Include public posts
+                { creator: req.userId } // Include posts created by the requester
+            ]
+        });
 
         res.json({ data: posts });
-    } catch (error) {    
+    } catch (error) {
         res.status(404).json({ message: error.message });
     }
 }
 
 export const getPost = async (req, res) => { 
-    const { id } = req.params;
+  console.log(req);  
+  const { id } = req.params;
 
     try {
         const post = await PostMessage.findById(id);
