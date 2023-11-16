@@ -62,7 +62,10 @@ const ListForm = ({ currentId, setCurrentId }) => {
     return (
         <Paper className={classes.paper}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-                <Typography variant="h6" >{currentId ? 'Editing' : 'Creating' } a List</Typography>
+                
+                <div style={{ marginBottom: '10px' }}>
+                    <Typography variant="h6" >{currentId ? 'Editing' : 'Creating' } a List</Typography>
+                </div>
                 <TextField name="title" variant="outlined" label="List Title" fullWidth value={listData.title} onChange={(e) => setListData({ ...listData, title: e.target.value })} />
                 <FormControlLabel
                     control={<Checkbox checked={listData.isPublic} onChange={(e) => setListData({ ...listData, isPublic: e.target.checked })} />}
