@@ -6,6 +6,7 @@ import PostMessage from '../models/postMessage.js';
 const router = express.Router();
 
 export const getPosts = async (req, res) => {
+  console.log(req.query);
     const { page } = req.query;
     
     try {
@@ -16,7 +17,8 @@ export const getPosts = async (req, res) => {
         const posts = await PostMessage.find({
           $or: [
             { isPrivate: false },
-            { creator: req.userId }
+            { creator: req.userId },
+            { isPrivate: { $exists: false }}
           ]
         }).sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
 

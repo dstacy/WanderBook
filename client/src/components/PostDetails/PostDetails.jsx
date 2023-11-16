@@ -67,6 +67,7 @@ const Post = () => {
             </Link>
           </Typography>
           <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
+          <Typography variant="body1"><strong>Private: </strong>{post.isPrivate ? 'Yes' : 'No'}</Typography>
           <Divider style={{ margin: '20px 0' }} />
           <Typography variant="body1"><strong>State: </strong>{post.state || 'N/A'}</Typography>
           <Typography variant="body1"><strong>Site: </strong>{post.site || 'N/A'}</Typography>
