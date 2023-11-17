@@ -143,6 +143,14 @@ const List = () => {
     }
   };
 
+  // Handle the key press event for the title input
+  const handleTitleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent the default behavior (e.g., submitting a form)
+      handleEditTitle();
+    }
+  };
+
   // Function to handle sorting option change
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
@@ -166,7 +174,7 @@ const List = () => {
       return 0;
     });
   };
-  
+
   if (!list) return null;
 
   if (isLoading) {
@@ -181,7 +189,8 @@ const List = () => {
     <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6} onKeyPress={handleKeyPress}>
       <div className={classes.card}>
         <div className={classes.section}>
-          <Typography variant="h3" component="h2">{list.title}
+          <Typography variant="h3" component="h2" onKeyPress={handleTitleKeyPress}>
+            {list.title} 
             {isCurrentUserCreator && (
                 <Button color="primary" style={{ marginTop: '30px', marginLeft: '10px', fontSize: '0.8rem' }}onClick={handleEditTitle}>
                   <EditIcon style={{ fontSize: '1rem', marginRight: '5px' }} />
