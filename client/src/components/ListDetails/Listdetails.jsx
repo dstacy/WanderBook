@@ -11,8 +11,6 @@ import { useParams, useHistory, Link } from 'react-router-dom';
 import { getList, updateList } from '../../actions/lists';
 import useStyles from './styles';
 
-console.log("listDetails/Listdetails");
-
 const List = () => {
   const { id } = useParams();
   console.log("id", id);

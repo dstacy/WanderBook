@@ -46,8 +46,6 @@ const ListForm = ({ currentId, setCurrentId }) => {
         if (currentId) {
             dispatch(updateList(currentId, listData));
         } else {
-            
-            console.log("user", user.result.name);
             const newListData = {
                 ...listData, 
                 creator: user.result.name,

@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase, Menu, MenuItem } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { deleteList } from '../../../actions/lists';
+import { deleteList, createList } from '../../../actions/lists';
+import moment from 'moment';
 
 import campFire from '../../../images/campFire1.jpg';
 import useStyles from './styles';
 
-const List = ({ list, setCurrentId }) => {
+const generateNewId = () => {
+    return '_' + Math.random().toString(36).substr(2, 9); // Adjust the length as needed
+  };
+
+const List = ({ list, setCurrentId }) => {    
+    const user = JSON.parse(localStorage.getItem('profile'));
+    const [duplicatedListData, setListData] = useState({ creator: user?.result?.name, title: `${list.title} (Copy)`, items: list.items, isPublic: false });
     const classes = useStyles();
     const dispatch = useDispatch();
-    const history = useHistory();
-    
+    const history = useHistory();    
     const [menuAnchorEl, setMenuAnchorEl] = useState(null);
     
     useEffect(() => {
@@ -42,6 +49,11 @@ const List = ({ list, setCurrentId }) => {
         handleMenuClose();
     };
 
+    const handleDuplicateList = () => {
+        dispatch(createList(duplicatedListData));
+        handleMenuClose();
+    };
+
     return (
         <Card className={classes.card}>
             <ButtonBase
@@ -63,6 +75,10 @@ const List = ({ list, setCurrentId }) => {
                         open={Boolean(menuAnchorEl)}
                         onClose={handleMenuClose}
                     >
+                        <MenuItem onClick={handleDuplicateList}>
+                            <FileCopyIcon fontSize="small" style={{ marginRight: '8px' }} />
+                            Duplicate List
+                        </MenuItem>
                         <MenuItem onClick={handleDeleteList}>
                             <DeleteIcon fontSize="small" style={{ marginRight: '8px' }} />
                             Delete List
