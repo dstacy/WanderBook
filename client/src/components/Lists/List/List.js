@@ -54,7 +54,7 @@ const List = ({ list, setCurrentId }) => {
                 <div className={classes.overlay}>
                     <Typography variant="h6">{list.creator}</Typography>
                 </div>
-                <div className={classes.overlay2}>
+                <div className={classes.overlay2} onClick={(e) => e.stopPropagation()}>
                     <Button style={{ color: 'white' }} size="small" onClick={handleMenuOpen}>
                         <MoreHorizIcon fontSize="medium" />
                     </Button>
