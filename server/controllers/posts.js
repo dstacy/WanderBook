@@ -89,7 +89,8 @@ export const getPostsBySearch = async (req, res) => {
           {
             $or: [
               {isPrivate: false},
-              {creator: req.userId} 
+              {creator: req.userId},
+              { isPrivate: { $exists: false }} 
             ]
           }
         ]
@@ -109,7 +110,8 @@ export const getPostsBySearch = async (req, res) => {
             name,
             $or: [
                 { isPrivate: false }, // Include public posts
-                { creator: req.userId } // Include posts created by the requester
+                { creator: req.userId }, // Include posts created by the requester
+                { isPrivate: { $exists: false }}
             ]
         });
 
