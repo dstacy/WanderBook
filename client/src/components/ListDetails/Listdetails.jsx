@@ -13,13 +13,12 @@ import useStyles from './styles';
 
 const List = () => {
   const { id } = useParams();
-  console.log("id", id);
   const { list, isLoading } = useSelector((state) => state.lists);
   const [item, setItem] = useState({ name: '', category: '' });
   const [newItem, setNewItem] = useState(list ? list.items : []);
   const dispatch = useDispatch();
-  const history = useHistory();
   const classes = useStyles();
+  const [editedTitle, setEditedTitle] = useState(list ? list.title : '');
   const [listData, setListData] = useState({ items: newItem, isPublic: false });
   const [sortBy, setSortBy] = useState('name'); // Default sorting by name
   const [sortOrder, setSortOrder] = useState('asc'); // Default sorting order
@@ -29,28 +28,23 @@ const List = () => {
     
 
   useEffect(() => {
-    console.log("Id Changed or set - listDetails Calling getList");
     dispatch(getList(id));
   }, [id]);
-  
-  console.log("List: ", list);
+
+  // When editedTitle changes, call getList
+  useEffect(() => {
+    dispatch(getList(id));
+  }, [editedTitle, id]);
 
   useEffect(() => {
     if(list && list.items) {
-      console.log("list had Changed or set - setNewItem");
       setNewItem([...list.items]);
     }
   }, [list]);
 
   // When newItem changes, update listData
   useEffect(() => {
-    console.log("newItem has changed or set - setListData");
     setListData({ ...listData, items: newItem, isPublic: list ? list.isPublic : false });
-    
-    // // Focus on the "Add an Item" input field when newItem changes
-    // if (isCurrentUserCreator) {
-    //   document.getElementById('addItemInput').focus();
-    // }    
   }, [newItem]);
 
   useEffect(() => {
@@ -68,9 +62,19 @@ const List = () => {
 
   // when listData changes, update database
   useEffect(() => {
-    console.log('listData has changed or set - dispatch(updateList(listData)');
     dispatch(updateList(id, listData));
   }, [listData]);
+
+  const handleEditTitle = () => {
+    const newTitle = prompt('Enter a new Title:', editedTitle);
+    if(newTitle !== null) {
+      setListData({ ...listData, title: newTitle });
+      setEditedTitle(newTitle);
+
+      // Dispatch API call to update the title immediately
+      dispatch(updateList(id, { title: newTitle }));
+    }
+  };
 
   const createANewItemToAdd = (event) => {
     const itemName = event.target.value;
@@ -82,18 +86,16 @@ const List = () => {
   const addItemToList = () => {
     // set if statement so a blank item couldn't be added to the list
     if (item.name) {
-      console.log("addItemToList has been initiated")
         // If Item already exists in newItem then it will not be added.
         // Alert user if the item already exists
         if (!newItem.some((existingItem) => existingItem.name.toLowerCase() === item.name.toLowerCase())) {
-            console.log("addItemToList calling setNewItem");
+
             setNewItem((prev) => ([...prev, item]));
             if (isCurrentUserCreator) {
               focusOnAddItemInput();
             }
         } else {
             window.alert('This item is already in the list.');
-            console.log('Item already exists in the array.');
         }
     }
 
@@ -179,7 +181,13 @@ const List = () => {
     <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6} onKeyPress={handleKeyPress}>
       <div className={classes.card}>
         <div className={classes.section}>
-          <Typography variant="h3" component="h2">{list.title}</Typography>
+          <Typography variant="h3" component="h2">{list.title}
+            {isCurrentUserCreator && (
+                <Button color="primary" style={{ marginTop: '30px', marginLeft: '10px', fontSize: '0.8rem' }}onClick={handleEditTitle}>
+                  <EditIcon style={{ fontSize: '1rem', marginRight: '5px' }} />
+                  Edit Title
+                </Button>
+            )}</Typography>
           <Typography variant="h6">
             Created by: {` ${list.creator}`}
           </Typography>
