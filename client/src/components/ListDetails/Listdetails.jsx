@@ -83,6 +83,10 @@ const List = () => {
     setItem({ name: itemName, category: itemCategory });
   };
 
+  const handleCategoryClick = (event) => {
+    event.target.select();
+  };
+
   const addItemToList = () => {
     // set if statement so a blank item couldn't be added to the list
     if (item.name) {
@@ -210,7 +214,7 @@ const List = () => {
               <>
                 <input id="addItemInput" type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} />
                 <br />
-                <input type="text" value={item.category} placeholder="Add an Category" onChange={(e) => setItem({ ...item, category: e.target.value })} />
+                <input type="text" value={item.category} placeholder="Add an Category" onClick={handleCategoryClick} onChange={(e) => setItem({ ...item, category: e.target.value })} />
                 <Button onClick={addItemToList}>
                     <AddIcon />
                 </Button>
