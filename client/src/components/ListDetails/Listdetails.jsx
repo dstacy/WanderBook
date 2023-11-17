@@ -22,10 +22,9 @@ const List = () => {
   const [listData, setListData] = useState({ items: newItem, isPublic: false });
   const [sortBy, setSortBy] = useState('name'); // Default sorting by name
   const [sortOrder, setSortOrder] = useState('asc'); // Default sorting order
-
-
+  
   const currentUser = JSON.parse(localStorage.getItem('profile')) || { result: { name: null } };
-    
+  const isCurrentUserCreator = list ? list.creator === currentUser.result.name : false;  
 
   useEffect(() => {
     dispatch(getList(id));
@@ -66,7 +65,7 @@ const List = () => {
   }, [listData]);
 
   const handleEditTitle = () => {
-    const newTitle = prompt('Enter a new Title:', editedTitle);
+    const newTitle = prompt('Enter a new Title:', list.title);
     if(newTitle !== null) {
       setListData({ ...listData, title: newTitle });
       setEditedTitle(newTitle);
@@ -167,10 +166,7 @@ const List = () => {
       return 0;
     });
   };
-
-
-  const isCurrentUserCreator = list ? list.creator === currentUser.result.name : false;
-
+  
   if (!list) return null;
 
   if (isLoading) {
@@ -228,7 +224,12 @@ const List = () => {
                   <select value={sortOrder} onChange={handleSortOrderChange}>
                     <option value="asc">Ascending</option>
                     <option value="desc">Descending</option>
-                  </select>
+                  </select>                 
+                      <>
+                        <Button className={classes.buttonClose} component={Link} to="/lists" variant="contained" style={{ marginLeft: '650px' }}>
+                          Close List
+                        </Button>
+                      </>
                 <br />
                 <br />
                 <TableContainer style={{ maxHeight: '600px' }}>
