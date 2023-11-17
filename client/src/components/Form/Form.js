@@ -25,7 +25,7 @@ const Form = ({ currentId, setCurrentId }) => {
   const [sewer, setSewer] = useState('');
   const [water, setWater] = useState('');
   const [waterfront, setWaterfront] = useState('');
-  const [isPrivate, setIsPrivate] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(post?.isPrivate || false);
  
 
   const handleApiCall = (title) => {
@@ -102,6 +102,11 @@ const Form = ({ currentId, setCurrentId }) => {
 
     }
   }, [postData.title, campgrounds]);
+
+  useEffect(() => {
+    // Update isPrivate when post changes
+    setIsPrivate(post?.isPrivate || false);
+  }, [post]);
      
   const handleSubmit = async (e) => {
     e.preventDefault();
