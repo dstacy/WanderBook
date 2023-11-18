@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { amber } from '@material-ui/core/colors';
 
 export default makeStyles((theme) => ({
   media: {
@@ -6,7 +7,7 @@ export default makeStyles((theme) => ({
     objectFit: 'cover',
     width: '100%',
     maxHeight: '600px',
-
+    marginTop: '50px', 
   },
   card: {
     display: 'flex',
@@ -23,6 +24,7 @@ export default makeStyles((theme) => ({
   },
   imageSection: {
     marginLeft: '20px',
+    position: 'relative',
     [theme.breakpoints.down('sm')]: {
       marginLeft: 0,
     },
@@ -50,4 +52,12 @@ export default makeStyles((theme) => ({
     overflowY: 'auto',
     marginRight: '30px',
   },
+  buttonClose: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 1,
+    color: theme.palette.getContrastText(amber[700]),
+    backgroundColor: amber[700],
+  }
 }));

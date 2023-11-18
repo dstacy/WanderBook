@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Paper, Typography, CircularProgress, Divider } from '@material-ui/core/';
+import { Paper, Typography, CircularProgress, Divider, Button } from '@material-ui/core/';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useParams, useHistory, Link } from 'react-router-dom';
@@ -38,7 +38,7 @@ const Post = () => {
     );
   }
 
-  const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
+  const recommendedPosts = posts.filter(({ _id }) => _id !== post._id).slice(0, 5);
   const waterfrontDisplay = post.waterfront ? post.waterfront : 'N/A';
   
   return (
@@ -57,8 +57,6 @@ const Post = () => {
             </Link>
             ))}
           </Typography>
-
-
           <Typography gutterBottom variant="body1" component="p">{post.message}</Typography>
           <Typography variant="h6">
             Created by:
@@ -84,6 +82,16 @@ const Post = () => {
           <Divider style={{ margin: '20px 0' }} />
         </div>
         <div className={classes.imageSection}>
+        <div>
+        <Button className={classes.buttonClose}
+            component={Link}
+            to="/posts"
+            variant="contained"
+            style={{ marginBottom: 20, marginRight: 0 }}
+          >
+            Close Post
+          </Button>
+          </div>
           <img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
         </div>
       </div>
