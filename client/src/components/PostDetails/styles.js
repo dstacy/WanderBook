@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { amber } from '@material-ui/core/colors';
+import { deepPurple } from '@material-ui/core/colors';
 
 export default makeStyles((theme) => ({
   media: {
@@ -57,7 +57,7 @@ export default makeStyles((theme) => ({
     top: 0,
     right: 0,
     zIndex: 1,
-    color: theme.palette.getContrastText(amber[700]),
-    backgroundColor: amber[700],
+    color: theme.palette.getContrastText(deepPurple[700]),
+    backgroundColor: deepPurple[700],
   }
 }));
