@@ -25,8 +25,10 @@ export default makeStyles((theme) => ({
   imageSection: {
     marginLeft: '20px',
     position: 'relative',
+    maxWidth: '600px', 
     [theme.breakpoints.down('sm')]: {
       marginLeft: 0,
+      maxWidth: '100%', // For smaller screens, allow full width
     },
   },
   recommendedPosts: {
@@ -59,5 +61,13 @@ export default makeStyles((theme) => ({
     zIndex: 1,
     color: theme.palette.getContrastText(deepPurple[700]),
     backgroundColor: deepPurple[700],
+  },
+  clickableImage: {
+    cursor: 'pointer',
+      content: {
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+      },
   }
 }));

@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
-import { Paper, Typography, CircularProgress, Divider, Button } from '@material-ui/core/';
+import React, { useEffect, useState } from 'react';
+import { Paper, Typography, CircularProgress, Divider, Button, Modal } from '@material-ui/core/';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useParams, useHistory, Link } from 'react-router-dom';
-
 import { getPost, getPostsBySearch } from '../../actions/posts';
 import CommentSection from './CommentSection';
 import useStyles from './styles';
@@ -14,6 +13,7 @@ const Post = () => {
   const history = useHistory();
   const classes = useStyles();
   const { id } = useParams();
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     dispatch(getPost(id));
@@ -40,6 +40,9 @@ const Post = () => {
 
   const recommendedPosts = posts.filter(({ _id }) => _id !== post._id).slice(0, 5);
   const waterfrontDisplay = post.waterfront ? post.waterfront : 'N/A';
+
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
   
   return (
     <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>
@@ -92,9 +95,20 @@ const Post = () => {
             Close Post
           </Button>
           </div>
-          <img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
+          <img className={`${classes.media} ${classes.clickableImage}`} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title}
+          onClick={handleOpenModal}
+          />
         </div>
       </div>
+      <Modal open={openModal} onClose={handleCloseModal}>
+        <div className={classes.modal}>
+          <img
+            className={classes.modalImage}
+            src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'}
+            alt={post.title}
+          />
+        </div>
+      </Modal>
       {!!recommendedPosts.length && (
         <div className={classes.section}>
           <Typography gutterBottom variant="h5">You might also like:</Typography>
