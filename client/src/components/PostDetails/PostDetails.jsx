@@ -88,10 +88,9 @@ const Post = () => {
         <div className={classes.imageSection}>
         <div>
         <Button className={classes.buttonClose}
-            component={Link}
-            to="/posts"
             variant="contained"
             style={{ marginBottom: 20, marginRight: 0 }}
+            onClick={() => history.goBack()}
           >
             Close Post
           </Button>
