@@ -25,6 +25,7 @@ const Form = ({ currentId, setCurrentId }) => {
   const [sewer, setSewer] = useState('');
   const [water, setWater] = useState('');
   const [waterfront, setWaterfront] = useState('');
+  const [isPrivate, setIsPrivate] = useState(post?.isPrivate || false);
  
 
   const handleApiCall = (title) => {
@@ -46,7 +47,7 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const clear = () => {
     setCurrentId(0);
-    setPostData({ title: '', site: '', pros: '', cons: '', message: '', contractID: '', facilityID: '', state: '', amps: '', pets: '', sewer: '', water: '', waterfront: '', tags: [], selectedFile: ''  });
+    setPostData({ title: '', site: '', pros: '', cons: '', message: '', contractID: '', facilityID: '', state: '', amps: '', pets: '', sewer: '', water: '', waterfront: '', tags: [], selectedFile: '', isPrivate: false });
   };
 
   useEffect(() => {
@@ -101,17 +102,22 @@ const Form = ({ currentId, setCurrentId }) => {
 
     }
   }, [postData.title, campgrounds]);
+
+  useEffect(() => {
+    // Update isPrivate when post changes
+    setIsPrivate(post?.isPrivate || false);
+  }, [post]);
      
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (currentId === 0) {
       dispatch(
-        createPost({ ...postData, name: user?.result?.name, state: state, amps: amps, pets: pets, sewer: sewer, water: water, waterfront: waterfront }, history)
+        createPost({ ...postData, name: user?.result?.name, state: state, amps: amps, pets: pets, sewer: sewer, water: water, waterfront: waterfront, isPrivate: isPrivate}, history)
       );
       clear();
     } else {
-      dispatch(updatePost(currentId, { ...postData, name: user?.result?.name, state: state, amps: amps, pets: pets, sewer: sewer, water: water, waterfront: waterfront }));
+      dispatch(updatePost(currentId, { ...postData, name: user?.result?.name, state: state, amps: amps, pets: pets, sewer: sewer, water: water, waterfront: waterfront, isPrivate: isPrivate }));
       clear();
     }
   };
@@ -139,6 +145,14 @@ const Form = ({ currentId, setCurrentId }) => {
       <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
         <div>
         <Typography variant="h6">{currentId ? `Editing "${post?.title}"` : 'Share Adventures'}</Typography>
+        </div>
+        <div style={{ padding: '10px 5px', width: '100%' }}>
+        <label>
+          <input type="checkbox" checked={isPrivate} // Assuming isPrivate is a state variable
+          onChange={(e) => setIsPrivate(e.target.checked)} // Assuming setIsPrivate is a state update function
+        />
+          Private Post
+        </label>
         </div>
         <div style={{ padding: '0 17px 0 0', width: '100%' }}>
           <Autocomplete

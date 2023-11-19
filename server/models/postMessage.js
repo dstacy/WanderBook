@@ -22,6 +22,7 @@ const postSchema = mongoose.Schema({
         type: Date,
         default: new Date(),
     },
+    isPrivate: { type: Boolean, default: false },
 })
 
 var PostMessage = mongoose.model('PostMessage', postSchema);
