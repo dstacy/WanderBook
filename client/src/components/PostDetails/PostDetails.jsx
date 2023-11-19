@@ -90,6 +90,7 @@ const Post = () => {
         <Button className={classes.buttonClose}
             variant="contained"
             style={{ marginBottom: 20, marginRight: 0 }}
+            startIcon={<Close />}
             onClick={() => history.goBack()}
           >
             Close Post

@@ -59,8 +59,8 @@ export default makeStyles((theme) => ({
     top: 0,
     right: 0,
     zIndex: 1,
-    color: theme.palette.getContrastText(deepPurple[700]),
-    backgroundColor: deepPurple[700],
+    //color: theme.palette.getContrastText(deepPurple[700]),
+    //backgroundColor: deepPurple[700],
   },
   clickableImage: {
     cursor: 'pointer',
