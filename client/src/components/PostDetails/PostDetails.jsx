@@ -6,6 +6,7 @@ import { useParams, useHistory, Link } from 'react-router-dom';
 import { getPost, getPostsBySearch } from '../../actions/posts';
 import CommentSection from './CommentSection';
 import useStyles from './styles';
+import { Close } from '@material-ui/icons';
 
 const Post = () => {
   const { post, posts, isLoading } = useSelector((state) => state.posts);
@@ -107,6 +108,13 @@ const Post = () => {
             src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'}
             alt={post.title}
           />
+        <Button
+            className={classes.closeButton}
+            onClick={handleCloseModal}
+            startIcon={<Close />}
+          >
+            Close
+          </Button>
         </div>
       </Modal>
       {!!recommendedPosts.length && (

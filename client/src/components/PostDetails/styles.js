@@ -64,5 +64,26 @@ export default makeStyles((theme) => ({
   },
   clickableImage: {
     cursor: 'pointer',
+  },
+  modal: {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    maxWidth: '95vw',
+    maxHeight: '95vh', 
+  },
+  modalImage: {
+    width: 'auto',
+    height: 'auto',
+    maxWidth: '95vw',
+    maxHeight: '95vh', 
+  },
+  closeButton: {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    color: 'black', // Adjust the color based on your background
+    backgroundColor: '#f0f0f0'
   }
 }));
