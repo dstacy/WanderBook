@@ -197,6 +197,15 @@ const List = () => {
                   Edit Title
                 </Button>
             )}</Typography>
+              <div> 
+                        <Button className={classes.buttonClose} 
+                        component={Link} to="/lists" 
+                        variant="contained" 
+                        style={{ marginBottom: 20, marginRight: 0 }}
+                        >
+                          Close List
+                        </Button>
+              </div>
           <Typography variant="h6">
             Created by: {` ${list.creator}`}
           </Typography>
@@ -234,11 +243,7 @@ const List = () => {
                     <option value="asc">Ascending</option>
                     <option value="desc">Descending</option>
                   </select>                 
-                      <>
-                        <Button className={classes.buttonClose} component={Link} to="/lists" variant="contained" style={{ marginLeft: '650px' }}>
-                          Close List
-                        </Button>
-                      </>
+                      
                 <br />
                 <br />
                 <TableContainer style={{ maxHeight: '600px' }}>

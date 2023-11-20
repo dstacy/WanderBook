@@ -63,8 +63,11 @@ export default makeStyles((theme) => ({
     background: '#f0f0f0',
   },
   buttonClose: {
-    marginLeft: '20px',
-    color: theme.palette.getContrastText(deepPurple[700]),
-    backgroundColor: deepPurple[700],
+    position: 'absolute',
+    top: 225,
+    right: 100,
+    zIndex: 1,
+    //color: theme.palette.getContrastText(deepPurple[700]),
+    //backgroundColor: deepPurple[700],
   },
 }));
