@@ -83,7 +83,7 @@ export default makeStyles((theme) => ({
     position: 'absolute',
     top: '10px',
     right: '10px',
-    color: 'black', // Adjust the color based on your background
+    color: 'black',
     backgroundColor: '#f0f0f0'
   }
 }));
