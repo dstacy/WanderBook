@@ -120,7 +120,7 @@ export default () => {
                   <CardContent>
                       { !!posts.length ? <>
                           <Typography variant="p" component="p" className={classes.contentText}>Most Liked: {postInfo.mostLikerName}</Typography>
-                          <Typography variant="p" component="p" className={classes.contentText}>Most Comment On: {postInfo.mostCommenterName}</Typography>
+                          <Typography variant="p" component="p" className={classes.contentText}>Most Commented On: {postInfo.mostCommenterName}</Typography>
 
                           <Typography variant="p" component="p" className={classes.contentText}>Newest: {postInfo.newestDate}</Typography>
                           <Typography variant="p" component="p" className={classes.contentText}>Oldest: {postInfo.oldestDate}</Typography>
