@@ -10,15 +10,35 @@ import campFire from '../../../images/campFire1.jpg';
 import useStyles from './styles';
 
 const List = ({ list, setCurrentId }) => {
+    const currentUser = JSON.parse(localStorage.getItem('profile')) || { result: { name: null } };
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
-
+    
 
     const openList= (e) => {
         history.push(`/lists/${list._id}`);
     }
+    
+    // Check if the user is authenticated (currentUser is not null)
+    if (currentUser.result.name === null) {
+        console.log("currentUser.result.name is Null");
+        return null; // Don't render anything if the user is not authenticated
+    }
 
+    // Check if the list's creator matches the current user
+    const isCurrentUserList = list.creator === currentUser.result.name;
+
+    if (!isCurrentUserList) {
+        // Don't render the list if it's not created by the current user
+        
+        console.log("isCurrentUserList is Null");
+        return null;
+    } else {
+        
+        console.log("currentUser.result.name is not Null");
+    }
+    console.log('returning card');
     return (
         <Card className={classes.card}>
             <ButtonBase 

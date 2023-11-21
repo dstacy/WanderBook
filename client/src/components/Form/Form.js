@@ -5,7 +5,7 @@ import FileBase from 'react-file-base64';
 import { useHistory } from 'react-router-dom';
 import ChipInput from 'material-ui-chip-input';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import _debounce from 'lodash.debounce'; // Import the debounce function
+import _debounce from 'lodash/debounce'; // Import the debounce function
 
 import { createPost, updatePost, getCampgrounds } from '../../actions/posts';
 import useStyles from './styles';

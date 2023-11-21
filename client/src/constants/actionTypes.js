@@ -21,3 +21,7 @@ export const FETCH_ALL_LISTS = 'FETCH_ALL_LISTS';
 export const CREATE_LIST = 'CREATE_LIST';
 export const UPDATE_LIST = 'UPDATE_LIST';
 export const DELETE_LIST = 'DELETE_LIST';
+
+// user
+export const API_REQUESTED = 'API_REQUESTED'
+export const FETCH_USER = 'FETCH_USER';

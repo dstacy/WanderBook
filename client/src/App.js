@@ -10,6 +10,7 @@ import Auth from './components/Auth/Auth';
 import CreatorOrTag from './components/CreatorOrTag/CreatorOrTag';
 import Search from './components/Search/Search';
 import ListHome from './components/ListHome/ListHome';
+import Dashboard from "./components/Dashboard/Dashboard";
 
 const App = () => {
   const user = JSON.parse(localStorage.getItem('profile'));
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/posts" exact component={Home} />
           <Route path="/search" exact component={Search} />
           <Route path="/lists" exact component={ListHome} />
+          <Route path="/dashboard/:name" exact component={Dashboard}/>
           <Route path="/posts/:id" exact component={PostDetails} />
           <Route path="/lists/:id" exact component={ListDetails} />
           <Route path={['/creators/:name', '/tags/:name']} component={CreatorOrTag} />
