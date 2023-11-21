@@ -11,8 +11,11 @@ import { useParams, useHistory, Link } from 'react-router-dom';
 import { getList, updateList } from '../../actions/lists';
 import useStyles from './styles';
 
+console.log("listDetails/Listdetails");
+
 const List = () => {
   const { id } = useParams();
+  console.log("id", id);
   const { list, isLoading } = useSelector((state) => state.lists);
   const [item, setItem] = useState({ name: '', category: '' });
   const [newItem, setNewItem] = useState(list ? list.items : []);
@@ -22,22 +25,28 @@ const List = () => {
   const [listData, setListData] = useState({ items: newItem });
 
   useEffect(() => {
+    console.log("Id Changed or set - listDetails Calling getList");
     dispatch(getList(id));
   }, [id]);
   
+  console.log("List: ", list);
+
   useEffect(() => {
     if(list && list.items) {
+      console.log("list had Changed or set - setNewItem");
       setNewItem([...list.items]);
     }
   }, [list]);
 
   // When newItem changes, update listData
   useEffect(() => {
+    console.log("newItem has changed or set - setListData");
     setListData({ ...listData, items: newItem });    
   }, [newItem]);
 
   // when listData changes, update database
   useEffect(() => {
+    console.log('listData has changed or set - dispatch(updateList(listData)');
     dispatch(updateList(id, listData));
   }, [listData]);
 
@@ -51,12 +60,15 @@ const List = () => {
   const addItemToList = () => {
     // set if statement so a blank item couldn't be added to the list
     if (item.name) {
+      console.log("addItemToList has been initiated")
         // If Item already exists in newItem then it will not be added.
         // Alert user if the item already exists
         if (!newItem.some((existingItem) => existingItem.name.toLowerCase() === item.name.toLowerCase())) {
+            console.log("addItemToList calling setNewItem");
             setNewItem((prev) => ([...prev, item]));
         } else {
             window.alert('This item is already in the list.');
+            console.log('Item already exists in the array.');
         }
     }
 
@@ -108,6 +120,9 @@ const List = () => {
       </Paper>
     );
   }
+
+  console.log('newItem: ', newItem);
+  console.log('listData: ', listData)
 
   return (
     <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>

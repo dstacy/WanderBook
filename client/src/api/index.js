@@ -37,3 +37,4 @@ export const fetchLists = (page) => API.get(`/lists?page=${page}`);
 export const createList = (newList) => API.post('/lists', newList);
 export const updateList = (id, updatedList) => API.patch(`/lists/${id}`, updatedList);
 export const deleteList = (id) => API.delete(`/lists/${id}`);
+
