@@ -71,6 +71,9 @@ export default ({ children }) => {
     const toggleDrawer = () => {
         setOpen(!open);
     };
+      
+        // Check if there is a user image
+        const hasUserImage = user?.result.imageUrl;
 
     useEffect(() => {
         dispatch(getPostsByCreator(name))
@@ -80,10 +83,10 @@ export default ({ children }) => {
   return (
     <div className={classes.layoutWrapper}>
         <Box sx={{ display: 'flex', flexDirection: 'column'}}>
-
-            <div className={classes.userInfoWrapper}>
-                <Avatar className={classes.userImage} alt={user.result.name} src="./images/user.jpg" sx={{ height: '120px', width: '120px' }} />
-
+        <div className={classes.userInfoWrapper}>
+            <Avatar className={classes.userImage} alt={user?.result.name} src={hasUserImage ? user?.result.imageUrl : undefined} sx={{ height: '120px', width: '120px' }}>
+                {!hasUserImage && user?.result.name.charAt(0).toUpperCase()}
+            </Avatar>
                 <div className={classes.userInfo}>
                     <h3 className={classes.userName}>{user.result.name}</h3>
                     <span className={classes.userEmail}>{user.result.email}</span>
