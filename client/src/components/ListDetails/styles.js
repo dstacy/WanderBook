@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { deepPurple, deepOrange } from '@material-ui/core/colors';
 
 export default makeStyles((theme) => ({
   media: {
@@ -61,13 +60,5 @@ export default makeStyles((theme) => ({
   },
   oddRow: {
     background: '#f0f0f0',
-  },
-  buttonClose: {
-    position: 'absolute',
-    top: 225,
-    right: 100,
-    zIndex: 1,
-    //color: theme.palette.getContrastText(deepPurple[700]),
-    //backgroundColor: deepPurple[700],
   },
 }));
