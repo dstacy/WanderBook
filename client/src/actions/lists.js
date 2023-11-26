@@ -5,7 +5,6 @@ import * as api from '../api/index.js';
 
 export const getList = (id) => async (dispatch) => {
     try {
-      console.log("Actions/lists/getList started");
       dispatch({ type: START_LOADING });
   
       const { data } = await api.fetchList(id);
@@ -31,7 +30,6 @@ export const getLists = (page) => async (dispatch) => {
   };
 
 export const createList = (list) => async (dispatch) => {
-    console.log('createList in Actions/lists');
     try {
         const { data } = await api.createList(list);
         dispatch({ type: CREATE_LIST, payload: data });
@@ -45,11 +43,11 @@ export const createList = (list) => async (dispatch) => {
 export const updateList = (id, list) => async (dispatch) => {
     try {
         const { data } = await api.updateList(id, list);
-        console.log('UPDATE_LIST Called from actions/lists');
+
    
         dispatch({ type: UPDATE_LIST, payload: data });
         
-        console.log('UPDATE_LIST Succeeded in Actions/Lists');
+       
     } catch (error) {
         console.log(error);
     }
@@ -60,7 +58,6 @@ export const deleteList = (id) => async (dispatch) => {
         const shouldDelete = window.confirm('Are you sure you want to delete the list?');
 
         if (shouldDelete) {
-            console.log('DELETE_LIST called from actions/lists');
             await api.deleteList(id);
             dispatch({ type: DELETE_LIST, payload: id });
         }
