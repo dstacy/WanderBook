@@ -38,13 +38,15 @@ const Navbar = () => {
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <Link to="/" className={classes.brandContainer}>
-        <img className={classes.image} component={Link} to="/" src={logo} alt="icon" height="100px" />
+        <img className={classes.image} src={logo} alt="icon" height="100px" />
       </Link>
       <Toolbar className={classes.toolbar}>
         {user?.result ? (
           <div className={classes.profile}>
-            <Avatar className={classes.purple} alt={user?.result.name} src={user?.result.imageUrl}>{user?.result.name.charAt(0)}</Avatar>
-            <Typography className={classes.userName} variant="h6">{user?.result.name}</Typography>
+            <Button className={classes.userName} variant="text" component={Link} to={`/dashboard/${user.result.name}`}>
+              <Avatar className={classes.purple} alt={user?.result.name} src={user?.result.imageUrl}>{user?.result.name.charAt(0)}</Avatar>
+              <Typography className={classes.userName} variant="h6">{user?.result.name}</Typography>
+            </Button>
             <Button className={classes.buttons} component={Link} to="/posts" variant="contained">Posts</Button>
             <Button className={classes.buttons} component={Link} to="/lists" variant="contained">Lists</Button>
             <Button className={classes.buttons} component={Link} to="/search" variant="contained">Search</Button>

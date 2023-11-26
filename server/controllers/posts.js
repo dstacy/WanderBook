@@ -13,7 +13,13 @@ export const getPosts = async (req, res) => {
         const startIndex = (Number(page) - 1) * LIMIT; // get the starting index of every page
     
         const total = await PostMessage.countDocuments({});
-        const posts = await PostMessage.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
+        const posts = await PostMessage.find({
+          $or: [
+            { isPrivate: false },
+            { creator: req.userId },
+            { isPrivate: { $exists: false }}
+          ]
+        }).sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
 
         res.json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});
     } catch (error) {    
@@ -76,28 +82,47 @@ export const getPostsBySearch = async (req, res) => {
       }
 
       // Filter posts based on the defined criteria
-      const posts = await PostMessage.find(filters);
-      console.log({data: posts});
+
+      const posts = await PostMessage.find({
+        $and: [
+          filters,
+          {
+            $or: [
+              {isPrivate: false},
+              {creator: req.userId},
+              { isPrivate: { $exists: false }} 
+            ]
+          }
+        ]
+      });
+      
       res.json({ data: posts });
     } catch (error) {    
       res.status(404).json({ message: error.message });
     }
   }
 
-export const getPostsByCreator = async (req, res) => {
+  export const getPostsByCreator = async (req, res) => {
     const { name } = req.query;
 
     try {
-        const posts = await PostMessage.find({ name });
+        const posts = await PostMessage.find({
+            name,
+            $or: [
+                { isPrivate: false }, // Include public posts
+                { creator: req.userId }, // Include posts created by the requester
+                { isPrivate: { $exists: false }}
+            ]
+        });
 
         res.json({ data: posts });
-    } catch (error) {    
+    } catch (error) {
         res.status(404).json({ message: error.message });
     }
 }
 
-export const getPost = async (req, res) => { 
-    const { id } = req.params;
+export const getPost = async (req, res) => {  
+  const { id } = req.params;
 
     try {
         const post = await PostMessage.findById(id);
@@ -124,11 +149,11 @@ export const createPost = async (req, res) => {
 
 export const updatePost = async (req, res) => {
     const { id } = req.params;
-    const { title, message, creator, selectedFile, tags, state, amps, pets, sewer, water, waterfront } = req.body;
+    const { title, message, creator, selectedFile, tags, state, amps, pets, sewer, water, waterfront, isPrivate } = req.body;
     
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
-    const updatedPost = { creator, title, message, tags, selectedFile, _id: id, state, amps, pets, sewer, water, waterfront };
+    const updatedPost = { creator, title, message, tags, selectedFile, _id: id, state, amps, pets, sewer, water, waterfront, isPrivate };
 
     await PostMessage.findByIdAndUpdate(id, updatedPost, { new: true });
 

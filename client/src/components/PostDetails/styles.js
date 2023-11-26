@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { deepPurple } from '@material-ui/core/colors';
 
 export default makeStyles((theme) => ({
   media: {
@@ -6,7 +7,7 @@ export default makeStyles((theme) => ({
     objectFit: 'cover',
     width: '100%',
     maxHeight: '600px',
-
+    marginTop: '50px', 
   },
   card: {
     display: 'flex',
@@ -23,8 +24,11 @@ export default makeStyles((theme) => ({
   },
   imageSection: {
     marginLeft: '20px',
+    position: 'relative',
+    maxWidth: '600px', 
     [theme.breakpoints.down('sm')]: {
       marginLeft: 0,
+      maxWidth: '100%', // For smaller screens, allow full width
     },
   },
   recommendedPosts: {
@@ -50,4 +54,36 @@ export default makeStyles((theme) => ({
     overflowY: 'auto',
     marginRight: '30px',
   },
+  buttonClose: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 1,
+    //color: theme.palette.getContrastText(deepPurple[700]),
+    //backgroundColor: deepPurple[700],
+  },
+  clickableImage: {
+    cursor: 'pointer',
+  },
+  modal: {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    maxWidth: '95vw',
+    maxHeight: '95vh', 
+  },
+  modalImage: {
+    width: 'auto',
+    height: 'auto',
+    maxWidth: '95vw',
+    maxHeight: '95vh', 
+  },
+  closeButton: {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    color: 'black',
+    backgroundColor: '#f0f0f0'
+  }
 }));
