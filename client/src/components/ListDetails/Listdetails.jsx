@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Paper, Typography, CircularProgress, Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from '@material-ui/core/';
+import { Button, Paper, Typography, CircularProgress, Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core/';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Checkbox, FormControlLabel } from '@material-ui/core';
+import { Checkbox } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,69 +11,44 @@ import { useParams, useHistory, Link } from 'react-router-dom';
 import { getList, updateList } from '../../actions/lists';
 import useStyles from './styles';
 
+console.log("listDetails/Listdetails");
+
 const List = () => {
   const { id } = useParams();
+  console.log("id", id);
   const { list, isLoading } = useSelector((state) => state.lists);
   const [item, setItem] = useState({ name: '', category: '' });
   const [newItem, setNewItem] = useState(list ? list.items : []);
   const dispatch = useDispatch();
+  const history = useHistory();
   const classes = useStyles();
-  const [editedTitle, setEditedTitle] = useState(list ? list.title : '');
-  const [listData, setListData] = useState({ items: newItem, isPublic: false });
-  const [sortBy, setSortBy] = useState('name'); // Default sorting by name
-  const [sortOrder, setSortOrder] = useState('asc'); // Default sorting order
-  
-  const currentUser = JSON.parse(localStorage.getItem('profile')) || { result: { name: null } };
-  const isCurrentUserCreator = list ? list.creator === currentUser.result.name : false;  
+  const [listData, setListData] = useState({ items: newItem });
 
   useEffect(() => {
+    console.log("Id Changed or set - listDetails Calling getList");
     dispatch(getList(id));
   }, [id]);
-
-  // When editedTitle changes, call getList
-  useEffect(() => {
-    dispatch(getList(id));
-  }, [editedTitle, id]);
+  
+  console.log("List: ", list);
 
   useEffect(() => {
     if(list && list.items) {
+      console.log("list had Changed or set - setNewItem");
       setNewItem([...list.items]);
     }
   }, [list]);
 
   // When newItem changes, update listData
   useEffect(() => {
-    setListData({ ...listData, items: newItem, isPublic: list ? list.isPublic : false });
+    console.log("newItem has changed or set - setListData");
+    setListData({ ...listData, items: newItem });    
   }, [newItem]);
-
-  useEffect(() => {
-    if (isCurrentUserCreator) {
-      focusOnAddItemInput();
-    }
-  }, []); // empty dependency array means this effect runs once on mount
-  
-  const focusOnAddItemInput = () => {
-    const addItemInput = document.getElementById('addItemInput');
-    if (addItemInput) {
-      addItemInput.focus();
-    }
-  };
 
   // when listData changes, update database
   useEffect(() => {
+    console.log('listData has changed or set - dispatch(updateList(listData)');
     dispatch(updateList(id, listData));
   }, [listData]);
-
-  const handleEditTitle = () => {
-    const newTitle = prompt('Enter a new Title:', list.title);
-    if(newTitle !== null) {
-      setListData({ ...listData, title: newTitle });
-      setEditedTitle(newTitle);
-
-      // Dispatch API call to update the title immediately
-      dispatch(updateList(id, { title: newTitle }));
-    }
-  };
 
   const createANewItemToAdd = (event) => {
     const itemName = event.target.value;
@@ -82,23 +57,18 @@ const List = () => {
     setItem({ name: itemName, category: itemCategory });
   };
 
-  const handleCategoryClick = (event) => {
-    event.target.select();
-  };
-
   const addItemToList = () => {
     // set if statement so a blank item couldn't be added to the list
     if (item.name) {
+      console.log("addItemToList has been initiated")
         // If Item already exists in newItem then it will not be added.
         // Alert user if the item already exists
         if (!newItem.some((existingItem) => existingItem.name.toLowerCase() === item.name.toLowerCase())) {
-
+            console.log("addItemToList calling setNewItem");
             setNewItem((prev) => ([...prev, item]));
-            if (isCurrentUserCreator) {
-              focusOnAddItemInput();
-            }
         } else {
             window.alert('This item is already in the list.');
+            console.log('Item already exists in the array.');
         }
     }
 
@@ -137,42 +107,8 @@ const List = () => {
   // code to addItemToList if "Enter" is pressed
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      if (document.activeElement.tagName === 'INPUT') {
-        addItemToList();
-      }
+      addItemToList();
     }
-  };
-
-  // Handle the key press event for the title input
-  const handleTitleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault(); // Prevent the default behavior (e.g., submitting a form)
-      handleEditTitle();
-    }
-  };
-
-  // Function to handle sorting option change
-  const handleSortChange = (event) => {
-    setSortBy(event.target.value);
-  };
-
-   // Function to handle sorting order change
-  const handleSortOrderChange = (event) => {
-    setSortOrder(event.target.value);
-  };
-
-  // Function to get sorted items based on the selected sorting option and order
-  const getSortedItems = () => {
-    return newItem.slice().sort((a, b) => {
-      const orderFactor = sortOrder === 'asc' ? 1 : -1;
-
-      if (sortBy === 'name') {
-        return a.name.localeCompare(b.name) * orderFactor;
-      } else if (sortBy === 'category') {
-        return a.category.localeCompare(b.category) * orderFactor;
-      }
-      return 0;
-    });
   };
 
   if (!list) return null;
@@ -185,76 +121,37 @@ const List = () => {
     );
   }
 
+  console.log('newItem: ', newItem);
+  console.log('listData: ', listData)
+
   return (
-    <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6} onKeyPress={handleKeyPress}>
+    <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>
       <div className={classes.card}>
         <div className={classes.section}>
-          <Typography variant="h3" component="h2" onKeyPress={handleTitleKeyPress}>
-            {list.title} 
-            {isCurrentUserCreator && (
-                <Button color="primary" style={{ marginTop: '30px', marginLeft: '10px', fontSize: '0.8rem' }}onClick={handleEditTitle}>
-                  <EditIcon style={{ fontSize: '1rem', marginRight: '5px' }} />
-                  Edit Title
-                </Button>
-            )}</Typography>
-              <div> 
-                        <Button className={classes.buttonClose} 
-                        component={Link} to="/lists" 
-                        variant="contained" 
-                        style={{ marginBottom: 20, marginRight: 0 }}
-                        >
-                          Close List
-                        </Button>
-              </div>
+          <Typography variant="h3" component="h2">{list.title}</Typography>
           <Typography variant="h6">
             Created by: {` ${list.creator}`}
           </Typography>
           <Typography variant="body1">Created: {moment(list.createdAt).format('YYYY-MM-DD')}</Typography>
-          {isCurrentUserCreator && (
-            <>
-            <FormControlLabel
-                control={<Checkbox checked={listData.isPublic} onChange={(e) => setListData({ ...listData, isPublic: e.target.checked })} />}
-                label="Make Public"
-            />
-            </>
-          )}
           <Divider style={{ margin: '20px 0' }} />
         </div>
       </div>
         <br />
         <br />
             <div>
-            {isCurrentUserCreator && (
-              <>
-                <input id="addItemInput" type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} />
+                <input type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} onKeyPress={handleKeyPress} />
                 <br />
-                <input type="text" value={item.category} placeholder="Add an Category" onClick={handleCategoryClick} onChange={(e) => setItem({ ...item, category: e.target.value })} />
+                <input type="text" value={item.category} placeholder="Add an Category" onChange={(e) => setItem({ ...item, category: e.target.value })} />
                 <Button onClick={addItemToList}>
                     <AddIcon />
                 </Button>
-              </>
-            )}
-                  <select value={sortBy} onChange={handleSortChange}>
-                    <option value="name">Sort by Name</option>
-                    <option value="category">Sort by Category</option>
-                  </select>
-                  &nbsp;&nbsp;
-                  <select value={sortOrder} onChange={handleSortOrderChange}>
-                    <option value="asc">Ascending</option>
-                    <option value="desc">Descending</option>
-                  </select>                 
-                      
                 <br />
                 <br />
-                <TableContainer style={{ maxHeight: '600px' }}>
-                  <Table stickyHeader>
+                <TableContainer>
+                  <Table>
                     <TableHead>
                       <TableRow>
-                      {isCurrentUserCreator && (
-                          <>
-                            <TableCell className={classes.TableHead} style={{ width: '1%' }}>Completed</TableCell>
-                          </>
-                        )}
+                        <TableCell className={classes.TableHead} style={{ width: '1%' }}>Completed</TableCell>
                         <TableCell className={classes.TableHead} style={{ width: '20%' }}>Item</TableCell>
                         <TableCell className={classes.TableHead} style={{ width: '20%' }}>Category</TableCell>
                         <TableCell className={classes.TableHead} style={{ width: '1%' }}></TableCell>
@@ -262,32 +159,20 @@ const List = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {getSortedItems().map((listItem, index) => (
+                      {newItem.map((item, index) => (
                         <TableRow key={index} className={index % 2 === 0 ? classes.evenRow : classes.oddRow}>
-                          {isCurrentUserCreator && (
-                          <>
-                            <TableCell style={{ width: '1% '}}><Checkbox /></TableCell>
-                          </>
-                        )}
-                          <TableCell style={{ width: '20%' }}>{listItem.name}</TableCell>
-                          <TableCell style={{ width: '20%' }}>{listItem.category}</TableCell>
+                          <TableCell style={{ width: '1% '}}><Checkbox /></TableCell>
+                          <TableCell style={{ width: '20%' }}>{item.name}</TableCell>
+                          <TableCell style={{ width: '20%' }}>{item.category}</TableCell>
                           <TableCell style={{ width: '1%' }}>
-                        {isCurrentUserCreator && (
-                          <>
                             <Button size="small" color="primary" onClick={() => editItem(index)}>
                               <EditIcon />
                             </Button>
-                          </>
-                        )}
                           </TableCell>
                           <TableCell style={{ width: '1%' }}>
-                          {isCurrentUserCreator && (
-                            <>
-                              <Button className="deleteItem" size="small" color="primary" onClick={() => deleteItem(index)}>
-                                <DeleteIcon />
-                              </Button>
-                            </>
-                          )}
+                            <Button className="deleteItem" size="small" color="primary" onClick={() => deleteItem(index)}>
+                              <DeleteIcon />
+                            </Button>
                           </TableCell>
                         </TableRow>
                       ))}
@@ -298,13 +183,9 @@ const List = () => {
             <br />
             <br />
             <div>
-            {isCurrentUserCreator && (
-              <>
                 <Button onClick={clearList}>
                     <DeleteIcon />Delete All Items
                 </Button>
-              </>
-            )}
             </div>
       
     </Paper>

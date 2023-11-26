@@ -4,8 +4,7 @@ import mongoose from 'mongoose';
 const listSchema = mongoose.Schema({
     title: String,
     items: [{ name: String, category: String }], 
-    creator: String,    
-    isPublic: Boolean,
+    creator: String,
     createdAt: {
         type: Date,
         default: new Date()

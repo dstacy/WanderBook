@@ -31,6 +31,7 @@ export const getLists = (page) => async (dispatch) => {
   };
 
 export const createList = (list) => async (dispatch) => {
+    console.log('createList in Actions/lists');
     try {
         const { data } = await api.createList(list);
         dispatch({ type: CREATE_LIST, payload: data });
