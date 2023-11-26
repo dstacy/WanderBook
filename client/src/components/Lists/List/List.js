@@ -39,8 +39,8 @@ const List = ({ list }) => {
         e.stopPropagation();
         setMenuAnchorEl(e.currentTarget);
     };
-
-    const handleMenuClose = () => {
+  
+     const handleMenuClose = () => {
         setMenuAnchorEl(null);
     };
 
@@ -54,6 +54,7 @@ const List = ({ list }) => {
         dispatch(createList(duplicatedListData));
         handleMenuClose();
     };
+  
     return (
         <Card className={classes.card}>
             <ButtonBase
