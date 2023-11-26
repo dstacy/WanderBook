@@ -33,12 +33,6 @@ const List = ({ list, setCurrentId }) => {
         history.push(`/lists/${list._id}`);
     }
     
-    // Check if the user is authenticated (currentUser is not null)
-    if (currentUser.result.name === null) {
-        console.log("currentUser.result.name is Null");
-        return null; // Don't render anything if the user is not authenticated
-    }
-
     const handleMenuOpen = (e) => {
         e.stopPropagation();
         setMenuAnchorEl(e.currentTarget);
