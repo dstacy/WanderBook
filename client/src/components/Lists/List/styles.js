@@ -30,8 +30,8 @@ export default makeStyles({
   },
   overlay2: {
     position: 'absolute',
-    top: '20px',
-    right: '20px',
+    top: '5px',
+    right: '5px',
     color: 'white',
   },
   grid: {
@@ -60,4 +60,5 @@ export default makeStyles({
     justifyContent: 'space-between',
     alignItems: 'right',
   },
+  
 });
