@@ -173,7 +173,7 @@ const Form = ({ currentId, setCurrentId }) => {
         <TextField name="site" variant="outlined" label="Site Number" fullWidth value={postData.site} onChange={(e) => setPostData({ ...postData, site: e.target.value })} />
         <TextField name="pros" variant="outlined" label="Pros" fullWidth value={postData.pros} onChange={(e) => setPostData({ ...postData, pros: e.target.value })} />
         <TextField name="cons" variant="outlined" label="Cons" fullWidth value={postData.cons} onChange={(e) => setPostData({ ...postData, cons: e.target.value })} />
-        <TextField name="message" variant="outlined" label="Description" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
+        <TextField name="message" variant="outlined" label="Description" fullWidth multiline minRows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
         <div style={{ padding: '5px 0', width: '94%' }}>
           <ChipInput
             name="tags"

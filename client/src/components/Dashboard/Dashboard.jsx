@@ -119,13 +119,13 @@ export default () => {
 
                   <CardContent>
                       { !!posts.length ? <>
-                          <Typography variant="p" component="p" className={classes.contentText}>Most Liked: {postInfo.mostLikerName}</Typography>
-                          <Typography variant="p" component="p" className={classes.contentText}>Most Commented On: {postInfo.mostCommenterName}</Typography>
+                          <Typography variant="body" component="p" className={classes.contentText}>Most Liked: {postInfo.mostLikerName}</Typography>
+                          <Typography variant="body" component="p" className={classes.contentText}>Most Commented On: {postInfo.mostCommenterName}</Typography>
 
-                          <Typography variant="p" component="p" className={classes.contentText}>Newest: {postInfo.newestDate}</Typography>
-                          <Typography variant="p" component="p" className={classes.contentText}>Oldest: {postInfo.oldestDate}</Typography>
+                          <Typography variant="body" component="p" className={classes.contentText}>Newest: {postInfo.newestDate}</Typography>
+                          <Typography variant="body" component="p" className={classes.contentText}>Oldest: {postInfo.oldestDate}</Typography>
                       </> :
-                          <Typography variant="p" component="p" className={classes.contentText}>No posts</Typography>
+                          <Typography variant="body" component="p" className={classes.contentText}>No posts</Typography>
                       }
 
                   </CardContent>
@@ -135,11 +135,11 @@ export default () => {
 
                   <CardContent>
                       {!!lists.length ? <>
-                          <Typography variant="p" component="p" className={classes.contentText}>Most Repeated Item: {listInfo.mostRepeatedItem}</Typography>
-                          <Typography variant="p" component="p" className={classes.contentText}>Least Repeated Item: {listInfo.leastRepeatedItem}</Typography>
-                          <Typography variant="p" component="p" className={classes.contentText}>Number of total list items: {listInfo.contributions}</Typography>
+                          <Typography variant="body" component="p" className={classes.contentText}>Most Repeated Item: {listInfo.mostRepeatedItem}</Typography>
+                          <Typography variant="body" component="p" className={classes.contentText}>Least Repeated Item: {listInfo.leastRepeatedItem}</Typography>
+                          <Typography variant="body" component="p" className={classes.contentText}>Number of total list items: {listInfo.contributions}</Typography>
                       </>:
-                          <Typography variant="p" component="p" className={classes.contentText}>No lists</Typography>
+                          <Typography variant="body" component="p" className={classes.contentText}>No lists</Typography>
                       }
 
                   </CardContent>
