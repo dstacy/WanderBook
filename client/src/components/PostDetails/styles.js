@@ -17,10 +17,27 @@ export default makeStyles((theme) => ({
       flexDirection: 'column',
     },
   },
+  detailsGroup: {
+    display: 'flex !important',
+    justifyContent: 'space-between !important',
+  },
+  detail: {
+    borderRadius: '8px',
+    width: '125px !important',
+    height: '125px !important',
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+    textAlign: 'center',
+    borderBottom: 'box-shadow: inset 0 -3px 0 0 purple !important',
+    paddingTop: '10px',
+    },
   section: {
     borderRadius: '20px',
     margin: '10px',
     flex: 1,
+  },
+  likes: {
+    display: 'flex !important',
+    justifyContent: 'flex-start !important',
   },
   imageSection: {
     marginLeft: '20px',
@@ -59,11 +76,38 @@ export default makeStyles((theme) => ({
     top: 0,
     right: 0,
     zIndex: 1,
-    //color: theme.palette.getContrastText(deepPurple[700]),
-    //backgroundColor: deepPurple[700],
+    color: theme.palette.getContrastText(deepPurple[700]),
+    backgroundColor: deepPurple[700],
   },
   clickableImage: {
     cursor: 'pointer',
+  },
+  recPostsTitle: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '10px',
+    textWrap: 'wrap',
+    paddingLeft: '30px',
+    paddingRight: '30px',
+    minHeight: '75px',
+    textAlign: 'center',
+  },
+  recPostsImg: {
+    textAlign: 'center',
+    width: '275px',
+    height: '275px',
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+    borderRadius: '50%',
+  },
+  description: {
+    minHeight: '125px',
+  },
+  icons: {
+    color: deepPurple[700],
+  },
+  thumbs: {
+    color: deepPurple[700],
   },
   modal: {
     position: 'fixed',
