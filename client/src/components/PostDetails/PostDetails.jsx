@@ -88,22 +88,22 @@ const Post = () => {
           <Divider style={{ margin: '20px 0' }} />
           <Container className={classes.detailsGroup}>
             <Container className={classes.detail}>
-              <ExploreIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>State: </strong><br />{post.state}</Typography>
+              <ExploreIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>State: </strong><br />{post.state ? post.state : 'N/A'}</Typography>
             </Container>
             <Container className={classes.detail}>
-              <NumbersIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Site: </strong><br />{post.site}</Typography>
+              <NumbersIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Site: </strong><br />{post.site ? post.site : 'N/A'}</Typography>
             </Container>
             <Container className={classes.detail}>
-              <ElectricalServicesIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Electric Hookup: </strong><br />{post.amps}</Typography>
+              <ElectricalServicesIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Electric Hookup: </strong><br />{post.amps ? post.amps : 'N/A'}</Typography>
             </Container>
             <Container className={classes.detail}>
-              <WaterDropIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Water Hookup: </strong><br />{post.water}</Typography>
+              <WaterDropIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Water Hookup: </strong><br />{post.water ? post.water : 'N/A'}</Typography>
             </Container>
             <Container className={classes.detail}>
-              <DeleteIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Sewer Hookup: </strong><br />{post.sewer}</Typography>
+              <DeleteIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Sewer Hookup: </strong><br />{post.sewer ? post.sewer : 'N/A'}</Typography>
             </Container>
             <Container className={classes.detail}>
-              <PetsIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Pets Allowed: </strong><br />{post.pets}</Typography>
+              <PetsIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Pets Allowed: </strong><br />{post.pets ? post.pets : 'N/A'}</Typography>
             </Container>
             <Container className={classes.detail}>
               <WavesIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Waterfront: </strong><br />{waterfrontDisplay}</Typography>
