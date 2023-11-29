@@ -167,7 +167,7 @@ const Post = () => {
 
 
 
-          <Grid container>
+          <Grid container style={{ width: 'auto' }}>
                 <div className={classes.recommendedPosts}>
                   {recommendedPosts.map(({ title, name, message, likes, selectedFile, _id }) => (
                     <Grid item
@@ -177,10 +177,10 @@ const Post = () => {
                       xs={12}
                       sm={12}
                       md={6}
-                      lg={3}
+                      lg={4}
                       >
                       <Container style={{ textAlign: 'center'}}>
-                        <Typography className={classes.recPostsTitle} style={{ fontSize: '26px'}} gutterBottom variant="h6">{title}</Typography>
+                        <Typography className={classes.recPostsTitle} style={{ fontSize: '22px'}} gutterBottom variant="h6">{title}</Typography>
                         <Typography style={{ fontSize: '20px', textDecoration: 'none', color: '#3f51b5' }} gutterBottom variant="subtitle2">{name}</Typography>
 
                         <Container className={classes.description}>

@@ -95,10 +95,14 @@ export default makeStyles((theme) => ({
   },
   recPostsImg: {
     textAlign: 'center',
-    width: '275px',
-    height: '275px',
     boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
     borderRadius: '50%',
+    position: 'relative',
+    maxWidth: '600px', 
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: 0,
+      maxWidth: '100%', // For smaller screens, allow full width
+    },
   },
   description: {
     minHeight: '125px',
