@@ -15,7 +15,7 @@ export default makeStyles((theme) => ({
   },
   headerTextStyle: {
     color: theme.palette.getContrastText(deepPurple[700]),
-    fontSize: '24px',
+    fontSize: '22px',
   },
   listRowText: {
     fontSize: '20px',
@@ -36,6 +36,7 @@ export default makeStyles((theme) => ({
     marginBottom: '10px',
     width: '200px',
     lineHeight: '2.6',
+    marginRight: '20px',
   },
   dropDowns: {
     borderColor: deepPurple[700],
