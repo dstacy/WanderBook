@@ -7,6 +7,20 @@ import { getPost, getPostsBySearch } from '../../actions/posts';
 import CommentSection from './CommentSection';
 import useStyles from './styles';
 import { Close } from '@material-ui/icons';
+import { Container } from '@mui/material';
+
+/* START OF NEW MATERIAL UI IMPORTS */
+import Grid from '@material-ui/core/Grid'
+import ExploreIcon from '@mui/icons-material/Explore';
+import NumbersIcon from '@mui/icons-material/Numbers';
+import WavesIcon from '@mui/icons-material/Waves';
+import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices';
+import WaterDropIcon from '@mui/icons-material/WaterDrop';
+import DeleteIcon from '@mui/icons-material/Delete';
+import PetsIcon from '@mui/icons-material/Pets';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+/* END OF NEW MATERIAL UI IMPORTS */
+
 
 const Post = () => {
   const { post, posts, isLoading } = useSelector((state) => state.posts);
@@ -68,16 +82,33 @@ const Post = () => {
               {` ${post.name}`}
             </Link>
           </Typography>
+              
           <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
           <Typography variant="body1"><strong>Private: </strong>{post.isPrivate ? 'Yes' : 'No'}</Typography>
           <Divider style={{ margin: '20px 0' }} />
-          <Typography variant="body1"><strong>State: </strong>{post.state}</Typography>
-          <Typography variant="body1"><strong>Site: </strong>{post.site}</Typography>
-          <Typography variant="body1"><strong>Electric Hookup: </strong>{post.amps}</Typography>
-          <Typography variant="body1"><strong>Water Hookup: </strong>{post.water}</Typography>
-          <Typography variant="body1"><strong>Sewer Hookup: </strong>{post.sewer}</Typography>
-          <Typography variant="body1"><strong>Pets Allowed: </strong>{post.pets}</Typography>
-          <Typography variant="body1"><strong>Waterfront: </strong>{waterfrontDisplay}</Typography>
+          <Grid container className={classes.detailsGroup}>
+            <Container className={classes.detail}>
+              <ExploreIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>State: </strong><br />{post.state ? post.state : 'N/A'}</Typography>
+            </Container>
+            <Container className={classes.detail}>
+              <NumbersIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Site: </strong><br />{post.site ? post.site : 'N/A'}</Typography>
+            </Container>
+            <Container className={classes.detail}>
+              <ElectricalServicesIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Electric Hookup: </strong><br />{post.amps ? post.amps : 'N/A'}</Typography>
+            </Container>
+            <Container className={classes.detail}>
+              <WaterDropIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Water Hookup: </strong><br />{post.water ? post.water : 'N/A'}</Typography>
+            </Container>
+            <Container className={classes.detail}>
+              <DeleteIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Sewer Hookup: </strong><br />{post.sewer ? post.sewer : 'N/A'}</Typography>
+            </Container>
+            <Container className={classes.detail}>
+              <PetsIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Pets Allowed: </strong><br />{post.pets ? post.pets : 'N/A'}</Typography>
+            </Container>
+            <Container className={classes.detail}>
+              <WavesIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Waterfront: </strong><br />{waterfrontDisplay}</Typography>
+            </Container>
+          </Grid>
           <Divider style={{ margin: '20px 0' }} />
           <CommentSection post={post} />
           <Divider style={{ margin: '20px 0' }} />
@@ -92,9 +123,12 @@ const Post = () => {
           >
             Close Post
           </Button>
+          
           </div>
-          <img className={`${classes.media} ${classes.clickableImage}`} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title}
-          onClick={handleOpenModal}
+          <img
+            style={{ marginTop: '100px'}}
+            className={`${classes.media} ${classes.clickableImage}`} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title}
+            onClick={handleOpenModal}
           />
         </div>
       </div>
@@ -112,25 +146,70 @@ const Post = () => {
           >
             Close
           </Button>
+
+            
+
         </div>
       </Modal>
       {!!recommendedPosts.length && (
+
+
+
+
+
+
         <div className={classes.section}>
           <Typography gutterBottom variant="h5">You might also like:</Typography>
           <Divider />
-          <div className={classes.recommendedPosts}>
-            {recommendedPosts.map(({ title, name, message, likes, selectedFile, _id }) => (
-              <div style={{ margin: '20px', cursor: 'pointer' }} onClick={() => openPost(_id)} key={_id}>
-                <Typography gutterBottom variant="h6">{title}</Typography>
-                <Typography gutterBottom variant="subtitle2">{name}</Typography>
-                <Typography gutterBottom variant="subtitle2">{message}</Typography>
-                <Typography gutterBottom variant="subtitle1">Likes: {likes.length}</Typography>
-                <img src={selectedFile} width="200px" />
-              </div>
-            ))}
-          </div>
+         
+
+
+
+
+
+          <Grid container style={{ width: 'auto' }}>
+                <div className={classes.recommendedPosts}>
+                  {recommendedPosts.map(({ title, name, message, likes, selectedFile, _id }) => (
+                    <Grid item
+                      style={{cursor: 'pointer' }}
+                      onClick={() => openPost(_id)}
+                      key={_id}
+                      xs={12}
+                      sm={12}
+                      md={6}
+                      lg={4}
+                      >
+                      <Container style={{ textAlign: 'center'}}>
+                        <Typography className={classes.recPostsTitle} style={{ fontSize: '22px'}} gutterBottom variant="h6">{title}</Typography>
+                        <Typography style={{ fontSize: '20px', textDecoration: 'none', color: '#3f51b5' }} gutterBottom variant="subtitle2">{name}</Typography>
+
+                        <Container className={classes.description}>
+                          <Typography gutterBottom variant="subtitle2">{message}</Typography>
+                          <Container className={classes.likes}>
+                            <ThumbUpIcon className={classes.thumbs} style={{ paddingRight: '4px'}} fontSize='small' /><Typography style={{ fontSize: '15px'}} gutterBottom variant="subtitle1">Likes: {likes.length}</Typography>
+                          </Container>
+                        </Container>
+                      
+                      <img className={classes.recPostsImg} src={selectedFile} width="250px" height="250px"/>
+                      </Container>
+                    </Grid>  
+                  ))}
+                </div>
+              </Grid>
+
+
+
+
+
+
+
+
+
         </div>
       )}
+              
+              
+
     </Paper>
   );
 };
