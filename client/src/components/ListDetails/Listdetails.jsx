@@ -231,7 +231,7 @@ const List = () => {
         <br />
         <br />
             <div>
-            <Container className={classes.addAndSortGroup}>
+            <Container>
             {isCurrentUserCreator && (
               <>
                 <input className={classes.addFields} id="addItemInput" type="text" value={item.name} placeholder="Item" onChange={createANewItemToAdd} />
@@ -239,8 +239,12 @@ const List = () => {
                 <Button className={classes.addItem} onClick={addItemToList}>
                     <AddIcon />
                 </Button>
-              </>
+                </>
+              
             )}
+                          </Container>
+
+              <Container>
                   <select className={classes.dropDowns} value={sortBy} onChange={handleSortChange}>
                     <option value="name">Sort by Name</option>
                     <option value="category">Sort by Category</option>
