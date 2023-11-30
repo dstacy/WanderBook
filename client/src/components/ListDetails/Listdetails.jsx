@@ -234,20 +234,20 @@ const List = () => {
             <Container className={classes.addAndSortGroup}>
             {isCurrentUserCreator && (
               <>
-                <input id="addItemInput" type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} />
-                <br />
-                <input type="text" value={item.category} placeholder="Add a Category" onClick={handleCategoryClick} onChange={(e) => setItem({ ...item, category: e.target.value })} />
-                <Button onClick={addItemToList}>
+                <input className={classes.addFields} id="addItemInput" type="text" value={item.name} placeholder="Item" onChange={createANewItemToAdd} />
+                <input className={classes.addFields} type="text" value={item.category} placeholder="Category" onClick={handleCategoryClick} onChange={(e) => setItem({ ...item, category: e.target.value })} />
+                <Button className={classes.addItem} onClick={addItemToList}>
                     <AddIcon />
                 </Button>
               </>
             )}
-                  <select value={sortBy} onChange={handleSortChange}>
+                  <select className={classes.dropDowns} value={sortBy} onChange={handleSortChange}>
                     <option value="name">Sort by Name</option>
                     <option value="category">Sort by Category</option>
                   </select>
                   &nbsp;&nbsp;
-                  <select value={sortOrder} onChange={handleSortOrderChange}>
+                  <br />
+                  <select className={classes.dropDowns} value={sortOrder} onChange={handleSortOrderChange}>
                     <option value="asc">Ascending</option>
                     <option value="desc">Descending</option>
                   </select>  
@@ -263,13 +263,13 @@ const List = () => {
                       <TableRow style={{ color: '#fff'}}>
                       {isCurrentUserCreator && (
                           <>
-                            <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ color: '#fff', width: '1%' }}>Completed</TableCell>
+                            <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ textAlign: 'center', color: '#fff', width: '5%' }}>Completed</TableCell>
                           </>
                         )}
                         <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ color: '#fff', width: '20%'}}>Item</TableCell>
                         <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ color: '#fff', width: '20%' }}>Category</TableCell>
-                        <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ width: '1%' }}></TableCell>
-                        <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ width: '1%' }}></TableCell>
+                        <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ width: '5%' }}></TableCell>
+                        <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ width: '5%' }}></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -277,7 +277,7 @@ const List = () => {
                         <TableRow key={index} className={index % 2 === 0 ? classes.evenRow : classes.oddRow}>
                           {isCurrentUserCreator && (
                           <>
-                            <TableCell style={{ width: '1% '}}><Checkbox /></TableCell>
+                            <TableCell style={{ width: '1% '}}><Checkbox style={{ display: 'flex', textAlign: 'center'}} /></TableCell>
                           </>
                         )}
                           <TableCell className={classes.listRowText} style={{ width: '20%' }}>{listItem.name}</TableCell>

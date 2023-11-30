@@ -9,10 +9,7 @@ export default makeStyles((theme) => ({
     maxHeight: '600px',
 
   },
-  addAndSortGroup: {
-    display: 'flex !important',
-    justifyContent: 'space-between !important',
-  },
+ 
   headerStyle: {
     backgroundColor: deepPurple[700],
   },
@@ -22,6 +19,8 @@ export default makeStyles((theme) => ({
   },
   listRowText: {
     fontSize: '20px',
+
+
   },
   card: {
     display: 'flex',
@@ -30,6 +29,31 @@ export default makeStyles((theme) => ({
       flexWrap: 'wrap',
       flexDirection: 'column',
     },
+  },
+  addFields: {
+    borderColor: deepPurple[700],
+    border: '2px solid #000',
+    marginBottom: '10px',
+    width: '200px',
+    lineHeight: '2.6',
+  },
+  dropDowns: {
+    borderColor: deepPurple[700],
+    border: '2px solid #000',
+    marginBottom: '10px',
+    width: '200px',
+  },
+  addAndSortGroup: {
+    display: 'flex !important',
+    justifyContent: 'space-between !important',
+  },
+  addItem: {
+    backgroundColor: deepPurple[700],
+    color: theme.palette.getContrastText(deepPurple[700]),
+    height: '2.7rem',
+  },
+  Checkbox: {
+    justifyContent: 'center',
   },
   section: {
     borderRadius: '20px',
@@ -71,9 +95,15 @@ export default makeStyles((theme) => ({
   },
   evenRow: {
     background: '#fff',
+    '&:hover': {
+      background: 'rgb(225, 225, 225)', 
+    },
   },
   oddRow: {
     background: '#f0f0f0',
+    '&:hover': {
+      background: 'rgb(210, 210, 210)', 
+    },
   },
   buttonClose: {
     position: 'absolute',
