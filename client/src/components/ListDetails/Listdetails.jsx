@@ -7,6 +7,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useParams, useHistory, Link } from 'react-router-dom';
+import { Close } from '@material-ui/icons';
+import { Container } from '@mui/material';
+
+
 
 import { getList, updateList } from '../../actions/lists';
 import useStyles from './styles';
@@ -202,7 +206,10 @@ const List = () => {
                         component={Link} to="/lists" 
                         variant="contained" 
                         style={{ marginBottom: 20, marginRight: 0 }}
+                        startIcon={<Close />}
+
                         >
+                          
                           Close List
                         </Button>
               </div>
@@ -224,11 +231,12 @@ const List = () => {
         <br />
         <br />
             <div>
+            <Container className={classes.addAndSortGroup}>
             {isCurrentUserCreator && (
               <>
                 <input id="addItemInput" type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} />
                 <br />
-                <input type="text" value={item.category} placeholder="Add an Category" onClick={handleCategoryClick} onChange={(e) => setItem({ ...item, category: e.target.value })} />
+                <input type="text" value={item.category} placeholder="Add a Category" onClick={handleCategoryClick} onChange={(e) => setItem({ ...item, category: e.target.value })} />
                 <Button onClick={addItemToList}>
                     <AddIcon />
                 </Button>
@@ -242,23 +250,26 @@ const List = () => {
                   <select value={sortOrder} onChange={handleSortOrderChange}>
                     <option value="asc">Ascending</option>
                     <option value="desc">Descending</option>
-                  </select>                 
-                      
+                  </select>  
+              </Container>
+
+
+
                 <br />
                 <br />
-                <TableContainer style={{ maxHeight: '600px' }}>
+                <TableContainer component={Paper} style={{ maxHeight: '600px' }}>
                   <Table stickyHeader>
-                    <TableHead>
-                      <TableRow>
+                    <TableHead className={classes.headerStyle}>
+                      <TableRow style={{ color: '#fff'}}>
                       {isCurrentUserCreator && (
                           <>
-                            <TableCell className={classes.TableHead} style={{ width: '1%' }}>Completed</TableCell>
+                            <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ color: '#fff', width: '1%' }}>Completed</TableCell>
                           </>
                         )}
-                        <TableCell className={classes.TableHead} style={{ width: '20%' }}>Item</TableCell>
-                        <TableCell className={classes.TableHead} style={{ width: '20%' }}>Category</TableCell>
-                        <TableCell className={classes.TableHead} style={{ width: '1%' }}></TableCell>
-                        <TableCell className={classes.TableHead} style={{ width: '1%' }}></TableCell>
+                        <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ color: '#fff', width: '20%'}}>Item</TableCell>
+                        <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ color: '#fff', width: '20%' }}>Category</TableCell>
+                        <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ width: '1%' }}></TableCell>
+                        <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ width: '1%' }}></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -269,9 +280,9 @@ const List = () => {
                             <TableCell style={{ width: '1% '}}><Checkbox /></TableCell>
                           </>
                         )}
-                          <TableCell style={{ width: '20%' }}>{listItem.name}</TableCell>
-                          <TableCell style={{ width: '20%' }}>{listItem.category}</TableCell>
-                          <TableCell style={{ width: '1%' }}>
+                          <TableCell className={classes.listRowText} style={{ width: '20%' }}>{listItem.name}</TableCell>
+                          <TableCell className={classes.listRowText} style={{ width: '20%' }}>{listItem.category}</TableCell>
+                          <TableCell className={classes.listRowText} style={{ width: '1%' }}>
                         {isCurrentUserCreator && (
                           <>
                             <Button size="small" color="primary" onClick={() => editItem(index)}>
@@ -300,7 +311,7 @@ const List = () => {
             <div>
             {isCurrentUserCreator && (
               <>
-                <Button onClick={clearList}>
+                <Button className={classes.buttonDeleteAll} onClick={clearList}>
                     <DeleteIcon />Delete All Items
                 </Button>
               </>

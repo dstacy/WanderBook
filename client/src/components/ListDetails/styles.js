@@ -9,6 +9,20 @@ export default makeStyles((theme) => ({
     maxHeight: '600px',
 
   },
+  addAndSortGroup: {
+    display: 'flex !important',
+    justifyContent: 'space-between !important',
+  },
+  headerStyle: {
+    backgroundColor: deepPurple[700],
+  },
+  headerTextStyle: {
+    color: theme.palette.getContrastText(deepPurple[700]),
+    fontSize: '24px',
+  },
+  listRowText: {
+    fontSize: '20px',
+  },
   card: {
     display: 'flex',
     width: '100%',
@@ -52,9 +66,8 @@ export default makeStyles((theme) => ({
     marginRight: '30px',
   },
   TableHead: {
-    background: 'orange',
-    borderTop: '3px solid black',
-    borderBottom: '3px solid black',
+    background: deepPurple[700],
+    fontFamily: 'inherit',
   },
   evenRow: {
     background: '#fff',
@@ -67,7 +80,11 @@ export default makeStyles((theme) => ({
     top: 225,
     right: 100,
     zIndex: 1,
-    //color: theme.palette.getContrastText(deepPurple[700]),
-    //backgroundColor: deepPurple[700],
+    color: theme.palette.getContrastText(deepPurple[700]),
+    backgroundColor: deepPurple[700],
   },
+  buttonDeleteAll: {
+    color: theme.palette.getContrastText(deepOrange[700]),
+    backgroundColor: deepOrange[700],
+  }
 }));
