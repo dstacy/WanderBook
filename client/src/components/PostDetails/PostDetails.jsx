@@ -86,7 +86,7 @@ const Post = () => {
           <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
           <Typography variant="body1"><strong>Private: </strong>{post.isPrivate ? 'Yes' : 'No'}</Typography>
           <Divider style={{ margin: '20px 0' }} />
-          <Container className={classes.detailsGroup}>
+          <Grid container className={classes.detailsGroup}>
             <Container className={classes.detail}>
               <ExploreIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>State: </strong><br />{post.state ? post.state : 'N/A'}</Typography>
             </Container>
@@ -108,7 +108,7 @@ const Post = () => {
             <Container className={classes.detail}>
               <WavesIcon fontSize="large" className={classes.icons} /><Typography variant="body1"><strong>Waterfront: </strong><br />{waterfrontDisplay}</Typography>
             </Container>
-          </Container>
+          </Grid>
           <Divider style={{ margin: '20px 0' }} />
           <CommentSection post={post} />
           <Divider style={{ margin: '20px 0' }} />
