@@ -42,6 +42,8 @@ export default makeStyles((theme) => ({
     border: '2px solid #000',
     marginBottom: '10px',
     width: '200px',
+    height: '3.0em',
+
   },
   addAndSortGroup: {
     display: 'flex !important',

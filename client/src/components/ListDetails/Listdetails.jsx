@@ -9,6 +9,7 @@ import moment from 'moment';
 import { useParams, useHistory, Link } from 'react-router-dom';
 import { Close } from '@material-ui/icons';
 import { Container } from '@mui/material';
+import Grid from '@material-ui/core/Grid'
 
 
 
@@ -231,10 +232,13 @@ const List = () => {
         <br />
         <br />
             <div>
-            <Container>
+            <Grid container>
+            { /* START OF CONTAINER FOR ADD ITEM AND ADD CATEGORY */ }
+            <Grid item xs={6}>
             {isCurrentUserCreator && (
               <>
                 <input className={classes.addFields} id="addItemInput" type="text" value={item.name} placeholder="Item" onChange={createANewItemToAdd} />
+                <br />
                 <input className={classes.addFields} type="text" value={item.category} placeholder="Category" onClick={handleCategoryClick} onChange={(e) => setItem({ ...item, category: e.target.value })} />
                 <Button className={classes.addItem} onClick={addItemToList}>
                     <AddIcon />
@@ -242,9 +246,11 @@ const List = () => {
                 </>
               
             )}
-                          </Container>
+            </Grid>
+            { /* END OF CONTAINER FOR ADD ITEM AND ADD CATEGORY */ }
 
-              <Container>
+            { /* START OF SORT BY NAME AND CATEGORY */ }
+              <Grid item xs={6}>
                   <select className={classes.dropDowns} value={sortBy} onChange={handleSortChange}>
                     <option value="name">Sort by Name</option>
                     <option value="category">Sort by Category</option>
@@ -255,9 +261,9 @@ const List = () => {
                     <option value="asc">Ascending</option>
                     <option value="desc">Descending</option>
                   </select>  
-              </Container>
-
-
+              </Grid>
+              { /* END OF SORT BY NAME AND CATEGORY */ }
+              </Grid>
 
                 <br />
                 <br />
