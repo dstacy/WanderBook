@@ -7,6 +7,11 @@ import EditIcon from '@material-ui/icons/Edit';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useParams, useHistory, Link } from 'react-router-dom';
+import { Close } from '@material-ui/icons';
+import { Container } from '@mui/material';
+import Grid from '@material-ui/core/Grid'
+
+
 
 import { getList, updateList } from '../../actions/lists';
 import useStyles from './styles';
@@ -202,7 +207,10 @@ const List = () => {
                         component={Link} to="/lists" 
                         variant="contained" 
                         style={{ marginBottom: 20, marginRight: 0 }}
+                        startIcon={<Close />}
+
                         >
+                          
                           Close List
                         </Button>
               </div>
@@ -224,41 +232,54 @@ const List = () => {
         <br />
         <br />
             <div>
+            <Grid container>
+            { /* START OF CONTAINER FOR ADD ITEM AND ADD CATEGORY */ }
+            <Grid item xs={6}>
             {isCurrentUserCreator && (
               <>
-                <input id="addItemInput" type="text" value={item.name} placeholder="Add an Item" onChange={createANewItemToAdd} />
+                <input className={classes.addFields} id="addItemInput" type="text" value={item.name} placeholder="Item" onChange={createANewItemToAdd} />
                 <br />
-                <input type="text" value={item.category} placeholder="Add an Category" onClick={handleCategoryClick} onChange={(e) => setItem({ ...item, category: e.target.value })} />
-                <Button onClick={addItemToList}>
+                <input className={classes.addFields} type="text" value={item.category} placeholder="Category" onClick={handleCategoryClick} onChange={(e) => setItem({ ...item, category: e.target.value })} />
+                <Button className={classes.addItem} onClick={addItemToList}>
                     <AddIcon />
                 </Button>
-              </>
+                </>
+              
             )}
-                  <select value={sortBy} onChange={handleSortChange}>
+            </Grid>
+            { /* END OF CONTAINER FOR ADD ITEM AND ADD CATEGORY */ }
+
+            { /* START OF SORT BY NAME AND CATEGORY */ }
+              <Grid item xs={6}>
+                  <select className={classes.dropDowns} value={sortBy} onChange={handleSortChange}>
                     <option value="name">Sort by Name</option>
                     <option value="category">Sort by Category</option>
                   </select>
                   &nbsp;&nbsp;
-                  <select value={sortOrder} onChange={handleSortOrderChange}>
+                  <br />
+                  <select className={classes.dropDowns} value={sortOrder} onChange={handleSortOrderChange}>
                     <option value="asc">Ascending</option>
                     <option value="desc">Descending</option>
-                  </select>                 
-                      
+                  </select>  
+              </Grid>
+              { /* END OF SORT BY NAME AND CATEGORY */ }
+              </Grid>
+
                 <br />
                 <br />
-                <TableContainer style={{ maxHeight: '600px' }}>
+                <TableContainer component={Paper} style={{ maxHeight: '600px' }}>
                   <Table stickyHeader>
-                    <TableHead>
-                      <TableRow>
+                    <TableHead className={classes.headerStyle}>
+                      <TableRow style={{ color: '#fff'}}>
                       {isCurrentUserCreator && (
                           <>
-                            <TableCell className={classes.TableHead} style={{ width: '1%' }}>Completed</TableCell>
+                            <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ textAlign: 'center', color: '#fff', width: '5%' }}>Completed</TableCell>
                           </>
                         )}
-                        <TableCell className={classes.TableHead} style={{ width: '20%' }}>Item</TableCell>
-                        <TableCell className={classes.TableHead} style={{ width: '20%' }}>Category</TableCell>
-                        <TableCell className={classes.TableHead} style={{ width: '1%' }}></TableCell>
-                        <TableCell className={classes.TableHead} style={{ width: '1%' }}></TableCell>
+                        <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ color: '#fff', width: '20%'}}>Item</TableCell>
+                        <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ color: '#fff', width: '20%' }}>Category</TableCell>
+                        <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ width: '5%' }}></TableCell>
+                        <TableCell className={classes.TableHead+' '+classes.headerTextStyle} style={{ width: '5%' }}></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -266,12 +287,12 @@ const List = () => {
                         <TableRow key={index} className={index % 2 === 0 ? classes.evenRow : classes.oddRow}>
                           {isCurrentUserCreator && (
                           <>
-                            <TableCell style={{ width: '1% '}}><Checkbox /></TableCell>
+                            <TableCell style={{ width: '1% '}}><Checkbox style={{ display: 'flex', textAlign: 'center'}} /></TableCell>
                           </>
                         )}
-                          <TableCell style={{ width: '20%' }}>{listItem.name}</TableCell>
-                          <TableCell style={{ width: '20%' }}>{listItem.category}</TableCell>
-                          <TableCell style={{ width: '1%' }}>
+                          <TableCell className={classes.listRowText} style={{ width: '20%' }}>{listItem.name}</TableCell>
+                          <TableCell className={classes.listRowText} style={{ width: '20%' }}>{listItem.category}</TableCell>
+                          <TableCell className={classes.listRowText} style={{ width: '1%' }}>
                         {isCurrentUserCreator && (
                           <>
                             <Button size="small" color="primary" onClick={() => editItem(index)}>
@@ -300,7 +321,7 @@ const List = () => {
             <div>
             {isCurrentUserCreator && (
               <>
-                <Button onClick={clearList}>
+                <Button className={classes.buttonDeleteAll} onClick={clearList}>
                     <DeleteIcon />Delete All Items
                 </Button>
               </>
